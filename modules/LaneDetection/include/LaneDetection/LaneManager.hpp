@@ -33,7 +33,8 @@ private:
     PIDController pid_controller_;
     XycarController xycar_controller;
 
-    std::queue <cv::Mat> current_images_;
+    // std::queue <cv::Mat> current_images_;
+    cv::Mat image_;
 
     void image_callback(const sensor_msgs::Image& message);
 };

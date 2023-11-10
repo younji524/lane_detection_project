@@ -38,7 +38,7 @@ namespace XyCar
         covariance_matrix_ -= kalman_gain_ * measurement_matrix_ * covariance_matrix_;
     }
 
-    const Mat& KalmanFilter::get_state() const
+    const cv::Mat& KalmanFilter::get_state() const
     {
         return state_matrix_;
     }
