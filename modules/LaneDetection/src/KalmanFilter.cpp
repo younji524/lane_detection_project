@@ -30,7 +30,7 @@ namespace XyCar
 
         if (pos <= 0 || pos >= 640)
         {
-            Mat measurement = (cv::Mat_<double>(2, 1) << avg_slope, avg_intercept);
+            cv::Mat measurement = (cv::Mat_<double>(2, 1) << avg_slope, avg_intercept);
             state_matrix_ += kalman_gain_ * (measurement - measurement_matrix_ * state_matrix_);
         }
 

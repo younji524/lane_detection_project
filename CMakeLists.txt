@@ -12,7 +12,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(${PROJECT_NAME}_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 set(${PROJECT_NAME}_SRC ${${PROJECT_NAME}_PATH}/src/)
-set(OpenCV_DIR /usr/share/OpenCV)
+# set(OpenCV_DIR /usr/share/OpenCV) # xycar
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -24,7 +24,8 @@ find_package(catkin REQUIRED COMPONENTS
   xycar_msgs
 )
 
-find_package(OpenCV 4.5.5 REQUIRED PATHS ~/OpenCV4/install/lib/cmake/opencv4)
+find_package(OpenCV 4.5.5 REQUIRED HINTS ${CMAKE_SOURCE_DIR}/lane_detection_project/thirdparty/OpenCV/install/lib/cmake/opencv4) # rosbag
+# find_package(OpenCV REQUIRED PATHS ~/OpenCV4/install/lib/cmake/opencv4) # xycar
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -134,34 +135,25 @@ add_subdirectory(modules)
 add_executable(${PROJECT_NAME} ${${PROJECT_NAME}_SRC}main_xycar.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-        ${catkin_INCLUDE_DIRS}
-        ${OpenCV_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS} # xycar
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
   LaneDetection
   ${catkin_LIBRARIES}
-  ${OpenCV_LIBRARIES}
+  ${OpenCV_LIBS} # rosbag
+  # ${OpenCV_LIBRARIES} # xycar
 )
 
-add_executable(test_xycar ${${PROJECT_NAME}_SRC}test.cpp)
-target_include_directories(test_xycar PUBLIC
-        ${catkin_INCLUDE_DIRS}
-        ${OpenCV_INCLUDE_DIRS}
-)
-target_link_libraries(test_xycar PRIVATE
-  LaneDetection
-  ${catkin_LIBRARIES}
-  ${OpenCV_LIBRARIES}
-)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
    add_definitions(-DDEBUG=1)
 endif()
 
-target_compile_options(${PROJECT_NAME} PRIVATE
-  -Wall -Wextra -Wpedantic -Werror
-)
+# target_compile_options(${PROJECT_NAME} PRIVATE
+#   -Wall -Wextra -Wpedantic -Werror
+# )
 
 
 

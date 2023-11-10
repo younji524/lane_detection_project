@@ -15,7 +15,6 @@ int32_t main(int32_t argc, char** argv)
     XyCar::LaneManager laneManager(p_gain, i_gain, d_gain);
 
     laneManager.run();
-    ros::spin();
 
     return 0;
 }

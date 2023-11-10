@@ -18,7 +18,7 @@ public:
      * @details Perform the tasks below for the initial configuration.\n
      *          1. Bring up the LiDAR mask.\n
      */
-    void init();
+    // void init();
 
     /**
      * @details Perfrom the image preprocessing tasks below.\n
