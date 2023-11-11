@@ -25,12 +25,7 @@ namespace XyCar
                 continue;
 
             cv::Mat canny_image = image_processor_.process(image_);
-
-            std::tuple<int32_t, int32_t, bool> output_detector;
-            output_detector = detector_.findPos(canny_image);
-            int32_t left_pos = std::get<0>(output_detector);
-            int32_t right_pos = std::get<1>(output_detector);
-            bool is_stop = std::get<2>(output_detector);
+            const auto [left_pos, right_pos, is_stop] = detector_.findPos(canny_image);
 
             // std::cout << "lpos: " << left_pos << std::endl;
             // std::cout << "rpos: " << right_pos << std::endl;
