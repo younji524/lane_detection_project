@@ -25,9 +25,9 @@ public:
      * @details Estimate the lane from the edge image and return the coordinates of the left & right lanes.
      * @param[in] canny_crop Canny edge ROI image.
      * @param[in] is_refining Flag about whether to refine position of lane.
-     * @return std::tuple<int32_t, int32_t, bool>
+     * @return State
      */
-    std::tuple<int32_t, int32_t, bool> findPos(const cv::Mat& canny_crop, bool is_refining = true)
+    State findState(const cv::Mat& canny_crop, bool is_refining = true)
     {
         std::vector<cv::Vec4i> lines;
         cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 60, 60, 5);
@@ -37,11 +37,8 @@ public:
         if (is_refining)
             refinePos();
 
-        // return std::make_tuple(state_.left_pos_, state_.right_pos_, state_.stop_flag_);
-        return {state_.left_pos_, state_.right_pos_, state_.stop_flag_};
+        return state_;
     }
-
-
 
 private:
     /**

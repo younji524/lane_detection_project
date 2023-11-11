@@ -25,13 +25,14 @@ namespace XyCar
                 continue;
 
             cv::Mat canny_image = image_processor_.process(image_);
-            const auto [left_pos, right_pos, is_stop] = detector_.findPos(canny_image);
 
-            // std::cout << "lpos: " << left_pos << std::endl;
-            // std::cout << "rpos: " << right_pos << std::endl;
-            // std::cout << "stop: " << is_stop << std::endl;
+            State lane_state = detector_.findState(canny_image);
 
-            int32_t error = k_frame_width / 2 - static_cast<int32_t>((right_pos + left_pos) / 2);
+            // std::cout << "lpos: " << lane_state.left_pos_ << std::endl;
+            // std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
+            // std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
+
+            int32_t error = k_frame_width / 2 - static_cast<int32_t>((lane_state.right_pos_ + lane_state.left_pos_) / 2);
 
             PREC angle = pid_controller_.computeAngle(error);
             // std::cout <<"angle: " << angle << std::endl;
