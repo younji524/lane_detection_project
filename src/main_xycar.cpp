@@ -2,8 +2,8 @@
 #include <cstdint>
 
 // user defined header
-#include "LaneDetection/Common.hpp"
-#include "LaneDetection/LaneManager.hpp"
+#include "Common.hpp"
+#include "LaneManager.hpp"
 
 int32_t main(int32_t argc, char** argv)
 {
