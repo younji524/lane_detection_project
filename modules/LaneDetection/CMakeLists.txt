@@ -21,16 +21,16 @@ add_library(LaneDetection
         ${${PROJECT_NAME}_SOURCE_FILES}
 )
 
-find_package(OpenCV 4.5.5 REQUIRED HINTS ${CMAKE_SOURCE_DIR}/lane_detection/thirdparty/OpenCV/install/lib/cmake/opencv4) # rosbag
+# find_package(OpenCV 4.5.5 REQUIRED HINTS ${CMAKE_SOURCE_DIR}/lane_detection/thirdparty/OpenCV/install/lib/cmake/opencv4) # rosbag
 
 # find_package(OpenCV 4.5.5 REQUIRED PATHS ~/OpenCV4/install/lib/cmake/opencv4) # xycar
 
-if(OpenCV_FOUND)
-    message(STATUS "OpenCV Found! - ${OpenCV_DIR}")
-    message(STATUS "OpenCV Version: ${OpenCV_VERSION}")
-endif()
+# if(OpenCV_FOUND)
+#     message(STATUS "OpenCV Found! - ${OpenCV_DIR}")
+#     message(STATUS "OpenCV Version: ${OpenCV_VERSION}")
+# endif()
 
-message("Source files: ${${PROJECT_NAME}_SOURCE_FILES}")
+# message("Source files: ${${PROJECT_NAME}_SOURCE_FILES}")
 
 # target_include_directories(${PROJECT_NAME} PUBLIC
 #         include
@@ -40,7 +40,7 @@ message("Source files: ${${PROJECT_NAME}_SOURCE_FILES}")
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${catkin_INCLUDE_DIRS}
-        ${OpenCV_INCLUDE_DIRS}
+        # ${OpenCV_INCLUDE_DIRS}
         include
 )
 
