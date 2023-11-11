@@ -7,7 +7,6 @@
 
 #include "opencv2/opencv.hpp"
 #include "Common.hpp"
-#include <algorithm>
 
 namespace XyCar
 {
