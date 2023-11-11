@@ -13,7 +13,7 @@ namespace XyCar
     * @param[in]  color  The color of lane.
     * @return  void
     */
-    void drawLineWithSlope(cv::Mat& frame, double slope, double intercept, const cv::Scalar& color)
+    void draw_line_slope(cv::Mat& frame, double slope, double intercept, const cv::Scalar& color)
     {
         if(slope == 0) return;
         int32_t y1 = k_frame_height;
@@ -30,7 +30,7 @@ namespace XyCar
     * @param[in]  color  The color of lane.
     * @return  void
     */
-    void drawLineWithPoints(cv::Mat& frame, cv::Point point1, cv::Point point2, const cv::Scalar& color)
+    void draw_line_points(cv::Mat& frame, cv::Point point1, cv::Point point2, const cv::Scalar& color)
     {
         cv::line(frame, point1, point2, color, 2, cv::LINE_8);
     }
@@ -40,7 +40,7 @@ namespace XyCar
     * @param[in]  pos  The x-coordinate position of the rectangle.
     * @return  void
     */
-    void drawRectangle(cv::Mat& frame, int32_t pos)
+    void draw_rectangle(cv::Mat& frame, int32_t pos)
     {
         cv::rectangle(frame, cv::Rect(cv::Point(pos - 5, k_offset - 5),cv::Point(pos + 5, k_offset - 5)), cv::Scalar(0, 255, 0));
     }

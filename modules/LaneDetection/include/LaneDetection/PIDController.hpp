@@ -24,7 +24,7 @@ public:
      * @param[in] error Error between the estimated x coordinates and half of the image.
      * @return XyCar::PREC
      */
-    PREC computeAngle(int32_t error);
+    PREC compute_angle(int32_t error);
 
 private:
     PREC proportional_gain_;
