@@ -1,5 +1,5 @@
-#include "LaneDetection/LaneManager.hpp"
-
+#include "LaneManager.hpp"
+#include <iostream>
 namespace XyCar
 {
     LaneManager::LaneManager(PREC p_gain, PREC i_gain, PREC d_gain) : pid_controller_(p_gain, i_gain, d_gain)
@@ -9,40 +9,41 @@ namespace XyCar
 
     void LaneManager::image_callback(const sensor_msgs::Image& message)
     {
-        image_ = cv::Mat(message.height, message.width, CV_8UC3, const_cast<uint8_t*>(&message.data[0]), message.step);
-        cv::cvtColor(image_, image_, cv::COLOR_RGB2BGR);
-        if(!image_.empty()){
-            cv::imshow("image", image);
-            cv::waitKey(1);
-        }
-        // current_images_.push(image_processor_.process(image));
+        cv::Mat camera_image = cv::Mat(message.height, message.width, CV_8UC3, const_cast<uint8_t*>(&message.data[0]), message.step);
+        cv::cvtColor(camera_image, image_, cv::COLOR_RGB2BGR);
     }
 
     void LaneManager::run()
     {
-        // if (current_images_.empty())
-        //     return;
+        ros::Rate rate(33);
+        while (ros::ok())
+        {
+            ros::spinOnce();
+            std::cout << image_.size() << std::endl;
 
-        // cv::Mat current_image = current_images_.front();
-        // current_images_.pop();
-`
-        if(!image_.empty()){
-            //detect rpos, lpos, and flag of stop
-            std::tuple<int32_t, int32_t, bool> output_detector;
+            if(image_.empty())
+                continue;
+
             cv::Mat canny_image = image_processor_.process(image_);
-            output_detector = detector_.findPos(current_image);
-            int32_t left_pos = std::get<0>(output_detector);
-            int32_t right_pos = std::get<1>(output_detector);
-            bool is_stop = std::get<2>(output_detector);
 
-            int32_t error = k_frame_width / 2 - static_cast<int32_t>((right_pos + left_pos) / 2);
+            State lane_state = detector_.find_state(canny_image);
 
-            PREC angle = pid_controller_.computeAngle(error);
+            // std::cout << "lpos: " << lane_state.left_pos_ << std::endl;
+            // std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
+            // std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
+
+            int32_t error = k_frame_width / 2 - static_cast<int32_t>((lane_state.right_pos_ + lane_state.left_pos_) / 2);
+
+            PREC angle = pid_controller_.compute_angle(error);
+            // std::cout <<"angle: " << angle << std::endl;
 
             xycar_controller.control(angle);
-        }
 
-        
+            cv::imshow("image_", image_);
+            cv::imshow("canny_image", canny_image);
+
+            cv::waitKey(1);
+        }
     }
 
 }

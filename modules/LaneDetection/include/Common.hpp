@@ -9,7 +9,8 @@ namespace XyCar
 
     constexpr uint32_t k_frame_width = 640;
     constexpr uint32_t k_frame_height = 480;
-    constexpr uint32_t k_roi_frame_height = (k_frame_height>>3)*5;
+    constexpr uint32_t k_roi_frame_y = k_frame_height >> 1;
+    constexpr uint32_t k_roi_frame_height = k_frame_height>>2;
     constexpr uint32_t k_lane_width = 490;
     constexpr uint32_t k_offset = 400;
 

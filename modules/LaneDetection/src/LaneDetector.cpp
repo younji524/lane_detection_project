@@ -2,11 +2,11 @@
 // Created by nahye on 23. 11. 7.
 //
 
-#include "LaneDetection/LaneDetector.hpp"
+#include "LaneDetector.hpp"
 
 namespace XyCar
 {
-    void LaneDetector::divideLeftRightLine(const std::vector<cv::Vec4i>& lines, std::vector<cv::Vec4i>& left_lines, std::vector<cv::Vec4i>& right_lines, std::vector<cv::Vec4i>& stop_lines)
+    void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i>& lines, std::vector<cv::Vec4i>& left_lines, std::vector<cv::Vec4i>& right_lines, std::vector<cv::Vec4i>& stop_lines)
     {
         constexpr double k_low_slope_threshold = 0.1;
         constexpr double k_stop_slpoe_threshold = 0.15;
@@ -37,7 +37,7 @@ namespace XyCar
         }
     }
 
-    void LaneDetector::findStopLine(const std::vector<cv::Vec4i> &stoplines)
+    void LaneDetector::find_stop_line(const std::vector<cv::Vec4i> &stoplines)
     {
         if(stoplines.size() >= 2)
             state_.stop_flag_ = true;
@@ -45,7 +45,7 @@ namespace XyCar
             state_.stop_flag_ = false;
     }
 
-    void LaneDetector::calculateSlopeAndIntercept(const std::vector<cv::Vec4i>& lines, bool is_left)
+    void LaneDetector::calculate_slope_and_intercept(const std::vector<cv::Vec4i>& lines, bool is_left)
     {
         double length_sum = 0.0;
         double slope_sum = 0.0;
@@ -85,7 +85,7 @@ namespace XyCar
         }
     }
 
-    void LaneDetector::calculatePos(bool is_left)
+    void LaneDetector::calculate_pos(bool is_left)
     {
         if(is_left){
             if(std::round(state_.left_slope_) == 0 && std::round(state_.left_intercept_) == 0){
@@ -109,7 +109,7 @@ namespace XyCar
         }
     }
 
-    void LaneDetector::refinePos()
+    void LaneDetector::refine_pos()
     {
         constexpr double k_under_limit = 0.6;
         constexpr double k_upper_limit = 1.0;

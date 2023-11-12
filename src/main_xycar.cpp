@@ -2,8 +2,8 @@
 #include <cstdint>
 
 // user defined header
-#include "LaneDetection/Common.hpp"
-#include "LaneDetection/LaneManager.hpp"
+#include "Common.hpp"
+#include "LaneManager.hpp"
 
 int32_t main(int32_t argc, char** argv)
 {
@@ -15,7 +15,6 @@ int32_t main(int32_t argc, char** argv)
     XyCar::LaneManager laneManager(p_gain, i_gain, d_gain);
 
     laneManager.run();
-    ros::spin();
 
     return 0;
 }
