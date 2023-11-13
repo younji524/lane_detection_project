@@ -64,7 +64,7 @@ namespace XyCar
             int32_t diff_y = y2 - y1;
             int32_t diff_x = x2 - x1;
             double slope = static_cast<double>(diff_y) / (diff_x);
-            double intercept = y1 + k_roi_frame_height - slope * x1;
+            double intercept = y1 + k_roi_frame_y - slope * x1;
             double line_length = sqrt(diff_y * diff_y) + (diff_x * diff_x);
 
             length_sum += line_length;

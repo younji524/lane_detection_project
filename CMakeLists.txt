@@ -15,8 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   xycar_msgs
 )
 
-# find_package(OpenCV 4.5.5 REQUIRED PATHS ~/OpenCV4/install/lib/cmake/opencv4)
-find_package(OpenCV 4.5.5 REQUIRED PATHS thirdparty/OpenCV/install/lib/cmake/opencv4)
+find_package(OpenCV 4.5.5 HINTS ~/OpenCV4/install/lib/cmake/opencv4)
 
 catkin_package()
 

@@ -27,6 +27,7 @@ public:
 private:
     ros::NodeHandle node_handler_;
     ros::Subscriber subscriber_;
+    ros::Publisher publisher_;
 
     ImageProcessor image_processor_;
     LaneDetector detector_;

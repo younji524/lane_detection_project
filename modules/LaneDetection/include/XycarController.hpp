@@ -23,7 +23,7 @@ public:
      * @param[in] angle Steering angle of xycar.\n (-20~20[deg] are mapped to -50~50 values)
      * @return void
      */
-    void control(PREC angle);
+    xycar_msgs::xycar_motor control(PREC angle);
 
 private:
     /**
@@ -42,11 +42,11 @@ private:
     xycar_msgs::xycar_motor make_motor_message(PREC angle, PREC speed);
 
 
-    ros::NodeHandle node_handler_;
-    ros::Publisher publisher_;
-    static constexpr int32_t k_max_speed_ = 40;
-    static constexpr int32_t k_min_speed_ = 25;
-    static constexpr int32_t k_step_speed_ = 5;
+    // ros::NodeHandle node_handler_;
+    // ros::Publisher publisher_;
+    static constexpr int32_t k_max_speed_ = 10;
+    static constexpr int32_t k_min_speed_ = 5;
+    static constexpr int32_t k_step_speed_ = 1;
     PREC speed_ = k_min_speed_;
 };
 } // XyCar

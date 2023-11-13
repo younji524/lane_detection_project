@@ -11,6 +11,7 @@ namespace XyCar
     {
         frame.copyTo(cropped_frame_);
         cropped_frame_ = cropped_frame_(cv::Rect(0, k_roi_frame_y, k_frame_width, k_roi_frame_height));
+        // cv::imshow("crop", cropped_frame_);
 
         // gray image
         cv::cvtColor(cropped_frame_, cropped_frame_, cv::COLOR_BGR2GRAY);
@@ -18,8 +19,9 @@ namespace XyCar
         // binarization
         cv::equalizeHist(cropped_frame_, cropped_frame_);
         cv::threshold(cropped_frame_, cropped_frame_, 65, 255, cv::THRESH_BINARY_INV);
+        // cv::imshow("crop", cropped_frame_);
 
-        // // lidar mask
+        // lidar mask
         // cv::bitwise_and(cropped_frame_, mask_lidar_(cv::Rect(0,(mask_lidar_.rows>>3)*5,mask_lidar_.cols,(mask_lidar_.rows>>3)*3)), cropped_frame_);
 
         // blur (gaussian)
