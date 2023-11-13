@@ -2,10 +2,12 @@
 
 namespace XyCar
 {
-    // void ImageProcessor::init()
-    // {
-    //     mask_lidar_ = cv::imread("../src/mask.png", cv::IMREAD_GRAYSCALE);
-    // }
+    void ImageProcessor::set_configuration(const YAML::Node& config)
+    {
+        k_roi_frame_y = config["IMAGE"]["ROI_Y_POS"].as<uint32_t>();
+        k_frame_width = config["IMAGE"]["WIDTH"].as<uint32_t>();
+        k_roi_frame_height = config["IMAGE"]["ROI_HEIGHT"].as<uint32_t>();
+    }
 
     cv::Mat ImageProcessor::process(const cv::Mat &frame)
     {

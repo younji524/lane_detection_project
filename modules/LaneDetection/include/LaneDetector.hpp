@@ -6,6 +6,7 @@
 #define LANE_DETECTION__LANEDETECTOR_HPP
 
 #include "opencv2/opencv.hpp"
+#include <yaml-cpp/yaml.h>
 #include "Common.hpp"
 
 namespace XyCar
@@ -16,9 +17,9 @@ namespace XyCar
 class LaneDetector
 {
 public:
-    // using Param = std::tuple<PREC, PREC, PREC, PREC>;
+    using Ptr = LaneDetector*;
 
-    LaneDetector() = default;
+    LaneDetector(const YAML::Node& config) {set_configuration(config);}
 
     /**
      * @details Estimate the lane from the edge image and return the coordinates of the left & right lanes.
@@ -40,6 +41,19 @@ public:
     }
 
 private:
+    uint32_t k_frame_width;
+    uint32_t k_roi_frame_y;
+    uint32_t k_offset;
+    uint32_t k_lane_width;
+    State state_;
+
+    /**
+     * @details set values from config
+     * @param[in] config config.yaml file
+     * @return void
+     */
+    void set_configuration(const YAML::Node& config);
+
     /**
      * @details Divide 'lines' into 'left_lines' and 'right_lines' based on slope.
      * @param[in] lines Coordinates consisting of starting and ending points. (x, y)
@@ -103,7 +117,7 @@ private:
     }
 
     // KalmanFilter kalman_;
-    State state_;
+    
 };
 } // XyCar
 

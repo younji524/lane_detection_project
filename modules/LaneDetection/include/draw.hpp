@@ -2,10 +2,10 @@
 #define LANE_DETECTION__DRAW_HPP
 
 #include "opencv2/opencv.hpp"
-#include "Common.hpp"
 
 namespace XyCar
 {
+
     /* @details  Draw a line with slope on 'frame'.
     * @param[out] frame
     * @param[in]  slope  The slope of a lane.
@@ -13,7 +13,7 @@ namespace XyCar
     * @param[in]  color  The color of lane.
     * @return  void
     */
-    void draw_line_slope(cv::Mat& frame, double slope, double intercept, const cv::Scalar& color)
+    void draw_line_slope(cv::Mat& frame, double slope, double intercept, const cv::Scalar& color, int32_t k_frame_height)
     {
         if(slope == 0) return;
         int32_t y1 = k_frame_height;
@@ -41,7 +41,7 @@ namespace XyCar
     * @param[in]  pos  The x-coordinate position of the rectangle.
     * @return  void
     */
-    void draw_rectangle(cv::Mat& frame, int32_t pos, const cv::Scalar& color)
+    void draw_rectangle(cv::Mat& frame, int32_t pos, const cv::Scalar& color, uint32_t k_offset)
     {
         cv::rectangle(frame, cv::Rect(cv::Point(pos - 7, k_offset - 7), cv::Point(pos + 7, k_offset + 7)), color, 2);
     }

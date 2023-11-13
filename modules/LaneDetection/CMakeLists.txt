@@ -35,10 +35,12 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_include_directories(${PROJECT_NAME} PUBLIC
         ${catkin_INCLUDE_DIRS}
         ${OpenCV_INCLUDE_DIRS}
+        ${YAML_CPP_INCLUDE_DIR}
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
         ${catkin_LIBRARIES}
         ${OpenCV_LIBRARIES}
+        ${YAML_CPP_LIBRARIES}
 )
 

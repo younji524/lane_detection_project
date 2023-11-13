@@ -2,9 +2,17 @@
 
 namespace XyCar
 {
-    XycarController::XycarController()
-    {
+    // XycarController::XycarController()
+    // {
         // publisher_ = node_handler_.advertise<xycar_msgs::xycar_motor>("xycar_motor", 1);
+    // }
+
+    void XycarController::set_configuration(const YAML::Node& config)
+    {
+        k_max_speed_= config["XYCAR"]["MAX_SPEED"].as<PREC>();
+        k_min_speed_ = config["XYCAR"]["MIN_SPEED"].as<PREC>();
+        k_step_speed_= config["XYCAR"]["STEP_SPEED"].as<PREC>();
+        speed_= config["XYCAR"]["START_SPEED"].as<PREC>();
     }
 
     xycar_msgs::xycar_motor XycarController::control(XyCar::PREC angle)
@@ -15,7 +23,7 @@ namespace XyCar
 
     PREC XycarController::decide_speed(PREC angle)
     {
-        // when xycar turn 
+        // when xycar turn
         if(abs(angle) > 10 && speed_ > k_min_speed_)
             speed_ -= k_step_speed_;
         // when xycar go straight

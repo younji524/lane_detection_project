@@ -6,13 +6,21 @@
 
 namespace XyCar
 {
+    void LaneDetector::set_configuration(const YAML::Node& config)
+    {
+        k_roi_frame_y = config["IMAGE"]["ROI_Y_POS"].as<uint32_t>();
+        k_frame_width = config["IMAGE"]["WIDTH"].as<uint32_t>();
+        k_offset = config["LANE"]["OFFSET"].as<uint32_t>();
+        k_lane_width = config["LANE"]["LANE_WIDTH"].as<uint32_t>();
+    }
+
     void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i>& lines, std::vector<cv::Vec4i>& left_lines, std::vector<cv::Vec4i>& right_lines, std::vector<cv::Vec4i>& stop_lines)
     {
         constexpr double k_low_slope_threshold = 0.1;
         constexpr double k_stop_slpoe_threshold = 0.15;
 
-        constexpr int32_t k_half_frame = k_frame_width / 2;
-        constexpr int32_t k_threshold_location = k_frame_width / 5;
+        int32_t k_half_frame = k_frame_width / 2;
+        int32_t k_threshold_location = k_frame_width / 5;
 
         for(const cv::Vec4i& line : lines)
         {

@@ -3,6 +3,7 @@
 
 // system header
 #include <cmath>
+#include <yaml-cpp/yaml.h>
 
 // third party header
 #include "ros/ros.h"
@@ -16,7 +17,9 @@ namespace XyCar
 class XycarController
 {
 public:
-    XycarController();
+    using Ptr = XycarController*;
+    XycarController(const YAML::Node& config) {set_configuration(config);}
+
 
     /**
      * @details Transmit the speed & angle to xycar motor driver.
@@ -26,6 +29,20 @@ public:
     xycar_msgs::xycar_motor control(PREC angle);
 
 private:
+    // ros::NodeHandle node_handler_;
+    // ros::Publisher publisher_;
+    PREC k_max_speed_;
+    PREC k_min_speed_;
+    PREC k_step_speed_;
+    PREC speed_;
+
+    /**
+     * @details set values from config
+     * @param[in] config config.yaml file
+     * @return void
+     */
+    void set_configuration(const YAML::Node& config);
+
     /**
      * @details Decide the speed of xycar based on the 'angle' value.
      * @param[in] angle Steering angle of xycar.\n (-20~20[deg] are mapped to -50~50 values)
@@ -40,14 +57,6 @@ private:
      * @return xycar_msgs::xycar_motor
      */
     xycar_msgs::xycar_motor make_motor_message(PREC angle, PREC speed);
-
-
-    // ros::NodeHandle node_handler_;
-    // ros::Publisher publisher_;
-    static constexpr int32_t k_max_speed_ = 10;
-    static constexpr int32_t k_min_speed_ = 5;
-    static constexpr int32_t k_step_speed_ = 1;
-    PREC speed_ = k_min_speed_;
 };
 } // XyCar
 

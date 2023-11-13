@@ -4,6 +4,7 @@
 // system header
 #include <queue>
 #include <iostream>
+#include <yaml-cpp/yaml.h>
 
 // third party header
 #include "sensor_msgs/Image.h"
@@ -20,8 +21,7 @@ namespace XyCar
 class LaneManager
 {
 public:
-    LaneManager(PREC p_gain, PREC i_gain, PREC d_gain);
-
+    LaneManager();
     void run();
 
 private:
@@ -29,14 +29,19 @@ private:
     ros::Subscriber subscriber_;
     ros::Publisher publisher_;
 
-    ImageProcessor image_processor_;
-    LaneDetector detector_;
-    PIDController pid_controller_;
-    XycarController xycar_controller;
+    ImageProcessor::Ptr image_processor_;
+    LaneDetector::Ptr detector_;
+    PIDController::Ptr pid_controller_;
+    XycarController::Ptr  xycar_controller;
 
     // std::queue <cv::Mat> current_images_;
     cv::Mat image_;
+    static constexpr double k_frame_rate = 33.0; ///< Frame rate
+    uint32_t k_frame_width;
+    uint32_t k_frame_height; //for draw
+    uint32_t k_offset; //for draw
 
+    void set_parameters(const YAML::Node& config);
     void image_callback(const sensor_msgs::Image& message);
 };
 } // XyCar
