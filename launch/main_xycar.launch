@@ -11,7 +11,7 @@
 		<param name="io_method" value="mmap"/>
 	</node> -->
 
-    <node name="main_xycar" pkg="lane_detection" type="lane_detection" output="screen"/>
+    <node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
     <!-- get parameter from config file path-->
     <!-- make your launch file to use your project. -->
 </launch>
