@@ -1,8 +1,8 @@
 IMAGE:
   WIDTH: 640
   HEIGHT: 480
-  ROI_HEIGHT : 240
-  ROI_Y_POS : 120
+  ROI_HEIGHT : 60
+  ROI_Y_POS : 300
   # find your ROI parameter.
 
 LANE:
@@ -20,9 +20,9 @@ XYCAR:
 
 # If you want to use other control methods, Change PID to another control methods.
 PID:
-  P_GAIN: 0.0
-  I_GAIN: 0.0000
-  D_GAIN: 0.00
+  P_GAIN: 0.6
+  I_GAIN: 0.0006
+  D_GAIN: 0.025
   # find your parameter.
 
 MOVING_AVERAGE_FILTER:
