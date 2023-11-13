@@ -26,6 +26,11 @@ add_executable(main_xycar src/main_xycar.cpp)
 target_link_libraries(main_xycar PRIVATE
   ${PROJECT_NAME})
 
+add_executable(teleop_xycar test/teleop_xycar.cpp)
+target_link_libraries(teleop_xycar PRIVATE
+  ${PROJECT_NAME}
+)
+
 if(CMAKE_BUILD_TYPE MATCHES Debug)
    add_definitions(-DDEBUG=1)
 endif()
