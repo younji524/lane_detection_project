@@ -14,6 +14,9 @@
     <node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
 
 	<include file="$(find xycar_motor)/launch/xycar_motor.launch"/>
+
+	<param name="config_path" type="str" value="$(find lane_detection)/config/config.yaml"/>
+
     <!-- get parameter from config file path-->
     <!-- make your launch file to use your project. -->
 </launch>

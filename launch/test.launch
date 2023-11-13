@@ -1,3 +1,10 @@
 <launch>
-    <node name="main_xycar" pkg="lane_detection" type="lane_detection" output="screen"/>
+    <node name="player" pkg="rosbag" type="play" output="screen"
+        args="--clock $(find lane_detection)/src/cam_topic.bag"/>
+
+    <node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
+
+	<param name="config_path" type="str" value="$(find lane_detection)/config/config.yaml"/>
+
+	<!-- <include file="$(find xycar_motor)/launch/xycar_motor_a2.launch"/> -->
 </launch>
