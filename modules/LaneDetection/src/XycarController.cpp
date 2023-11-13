@@ -15,12 +15,18 @@ namespace XyCar
 
     PREC XycarController::decide_speed(PREC angle)
     {
-        // when xycar turn 
-        if(abs(angle) > 10 && speed_ > k_min_speed_)
+        // when xycar turn
+        if(std::abs(angle) > 10)
+        {
             speed_ -= k_step_speed_;
+            speed_ = std::max(speed_, k_min_speed_);
+        }
         // when xycar go straight
-        else if ((angle >= -10 && angle <= 10) && speed_ < k_max_speed_)
+        else
+        {
             speed_ += k_step_speed_;
+            speed_ = std::min(speed_, k_max_speed_);
+        }
 
         return speed_;
     }
