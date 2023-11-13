@@ -2,6 +2,7 @@
 #define LANE_DETECTION__XYCARCONTROLLER_HPP
 
 // system header
+#include <algorithm>
 #include <cmath>
 
 // third party header
@@ -44,9 +45,9 @@ private:
 
     // ros::NodeHandle node_handler_;
     // ros::Publisher publisher_;
-    static constexpr int32_t k_max_speed_ = 10;
-    static constexpr int32_t k_min_speed_ = 5;
-    static constexpr int32_t k_step_speed_ = 1;
+    static constexpr PREC k_max_speed_ = 10;
+    static constexpr PREC k_min_speed_ = 5;
+    static constexpr PREC k_step_speed_ = 1;
     PREC speed_ = k_min_speed_;
 };
 } // XyCar
