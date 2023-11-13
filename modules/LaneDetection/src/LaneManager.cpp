@@ -40,7 +40,7 @@ namespace XyCar
             // std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
 
             int32_t centor = static_cast<int32_t>((lane_state.right_pos_ + lane_state.left_pos_) / 2);
-            int32_t error = (k_frame_width / 2) - centor;
+            int32_t error = centor - (k_frame_width >> 1);
 
 
             // cv::rectangle(draw_image, cv::Rect(cv::Point(5, 5), cv::Point(105, 105)), cv::Scalar(255,0,0), 2);
@@ -48,7 +48,7 @@ namespace XyCar
             cv::rectangle(draw_image, cv::Rect(cv::Point(centor - 5, k_offset - 5), cv::Point(centor + 15, k_offset - 15)), cv::Scalar(255,0,0), 2);
             // cv::rectangle(draw_image, cv::Rect(cv::Point(k_frame_width / 2 - 5, k_offset - 5), cv::Point(k_frame_width / 2 + 5, k_offset - 5)), cv::Scalar(0,0,255), 2);
 
-            PREC angle = pid_controller_.compute_angle(-error);
+            PREC angle = pid_controller_.compute_angle(error);
             std::cout <<"error: " << error << std::endl;
             std::cout <<"angle: " << angle << std::endl;
 
