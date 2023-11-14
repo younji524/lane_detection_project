@@ -27,7 +27,7 @@ namespace XyCar
         // cv::bitwise_and(cropped_frame_, mask_lidar_(cv::Rect(0,(mask_lidar_.rows>>3)*5,mask_lidar_.cols,(mask_lidar_.rows>>3)*3)), cropped_frame_);
 
         // blur (gaussian)
-        // cv::GaussianBlur(cropped_frame_, cropped_frame_, cv::Size(), 5);
+        cv::GaussianBlur(cropped_frame_, cropped_frame_, cv::Size(), 2);
 
         // canny edge
         cv::Canny(cropped_frame_, cropped_frame_, 50, 150);

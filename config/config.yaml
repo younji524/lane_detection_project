@@ -22,8 +22,8 @@ XYCAR:
 # If you want to use other control methods, Change PID to another control methods.
 PID:
   P_GAIN: 0.6
-  I_GAIN: 0.0006
-  D_GAIN: 0.025
+  I_GAIN: 0.0000 # 0.0006
+  D_GAIN: 0.000 # 0.025
   # find your parameter.
 
 # MOVING_AVERAGE_FILTER:
