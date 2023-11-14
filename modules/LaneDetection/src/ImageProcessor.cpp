@@ -2,15 +2,17 @@
 
 namespace XyCar
 {
-    // void ImageProcessor::init()
-    // {
-    //     mask_lidar_ = cv::imread("../src/mask.png", cv::IMREAD_GRAYSCALE);
-    // }
+    void ImageProcessor::set_configuration(const YAML::Node& config)
+    {
+        roi_frame_y = config["IMAGE"]["ROI_Y_POS"].as<uint32_t>();
+        frame_width = config["IMAGE"]["WIDTH"].as<uint32_t>();
+        roi_frame_height = config["IMAGE"]["ROI_HEIGHT"].as<uint32_t>();
+    }
 
     cv::Mat ImageProcessor::process(const cv::Mat &frame)
     {
         frame.copyTo(cropped_frame_);
-        cropped_frame_ = cropped_frame_(cv::Rect(0, k_roi_frame_y, k_frame_width, k_roi_frame_height));
+        cropped_frame_ = cropped_frame_(cv::Rect(0, roi_frame_y, frame_width, roi_frame_height));
         // cv::imshow("crop", cropped_frame_);
 
         // gray image

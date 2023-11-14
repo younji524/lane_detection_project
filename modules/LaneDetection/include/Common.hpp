@@ -2,17 +2,11 @@
 #define LANE_DETECTION__COMMON_HPP
 
 #include <cstdint>
+#include <yaml-cpp/yaml.h>
 
 namespace XyCar
 {
     using PREC = double;
-
-    constexpr uint32_t k_frame_width = 640;
-    constexpr uint32_t k_frame_height = 480;
-    constexpr uint32_t k_roi_frame_y = 300;
-    constexpr uint32_t k_roi_frame_height = 60;
-    constexpr uint32_t k_lane_width = 490;
-    constexpr uint32_t k_offset = 400;
 
     /**
      * @details  A structure that represents the state of the lanes.

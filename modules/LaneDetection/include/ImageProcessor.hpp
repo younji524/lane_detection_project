@@ -1,8 +1,8 @@
 #ifndef LANE_DETECTION__IMAGEPROCESSOR_HPP
 #define LANE_DETECTION__IMAGEPROCESSOR_HPP
 
-#include "Common.hpp"
 #include "opencv2/opencv.hpp"
+#include <cstdint>
 
 namespace XyCar
 {
@@ -12,7 +12,9 @@ namespace XyCar
 class ImageProcessor
 {
 public:
-    ImageProcessor() = default;
+    using Ptr = ImageProcessor*;
+
+    ImageProcessor(const YAML::Node& config) {set_configuration(config);}
 
     /**
      * @details Perform the tasks below for the initial configuration.\n
@@ -32,7 +34,17 @@ public:
 
 private:
     cv::Mat cropped_frame_;
-    cv::Mat mask_lidar_;
+    // cv::Mat mask_lidar_;
+    uint32_t roi_frame_y;
+    uint32_t frame_width;
+    uint32_t roi_frame_height;
+
+    /**
+     * @details set values from config
+     * @param[in] config config.yaml file
+     * @return void
+     */
+    void set_configuration(const YAML::Node& config);
 };
 } // XyCar
 

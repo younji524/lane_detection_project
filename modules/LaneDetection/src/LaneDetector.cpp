@@ -6,13 +6,21 @@
 
 namespace XyCar
 {
+    void LaneDetector::set_configuration(const YAML::Node& config)
+    {
+        roi_frame_y = config["IMAGE"]["ROI_Y_POS"].as<uint32_t>();
+        frame_width = config["IMAGE"]["WIDTH"].as<uint32_t>();
+        offset = config["LANE"]["OFFSET"].as<uint32_t>();
+        lane_width = config["LANE"]["LANE_WIDTH"].as<uint32_t>();
+    }
+
     void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i>& lines, std::vector<cv::Vec4i>& left_lines, std::vector<cv::Vec4i>& right_lines, std::vector<cv::Vec4i>& stop_lines)
     {
         constexpr double k_low_slope_threshold = 0.1;
         constexpr double k_stop_slpoe_threshold = 0.15;
 
-        constexpr int32_t k_half_frame = k_frame_width / 2;
-        constexpr int32_t k_threshold_location = k_frame_width / 5;
+        int32_t half_frame = frame_width / 2;
+        int32_t threshold_location = frame_width / 5;
 
         for(const cv::Vec4i& line : lines)
         {
@@ -26,13 +34,13 @@ namespace XyCar
 
             double slope = static_cast<double>(y2 - y1) / (x2 - x1);
 
-            if((slope < -k_low_slope_threshold) && (x1 < k_half_frame))
+            if((slope < -k_low_slope_threshold) && (x1 < half_frame))
                 left_lines.emplace_back(x1,y1,x2,y2);
 
-            else if((slope > k_low_slope_threshold) && (x2 > k_half_frame))
+            else if((slope > k_low_slope_threshold) && (x2 > half_frame))
                 right_lines.emplace_back(x1,y1,x2,y2);
 
-            else if((abs(slope) <= k_stop_slpoe_threshold) && (x1 > k_threshold_location) && (x2 < k_threshold_location * 4))
+            else if((abs(slope) <= k_stop_slpoe_threshold) && (x1 > threshold_location) && (x2 < threshold_location * 4))
                 stop_lines.emplace_back(x1,y1,x2,y2);
         }
     }
@@ -64,7 +72,7 @@ namespace XyCar
             int32_t diff_y = y2 - y1;
             int32_t diff_x = x2 - x1;
             double slope = static_cast<double>(diff_y) / (diff_x);
-            double intercept = y1 + k_roi_frame_y - slope * x1;
+            double intercept = y1 + roi_frame_y - slope * x1;
             double line_length = sqrt(diff_y * diff_y) + (diff_x * diff_x);
 
             length_sum += line_length;
@@ -92,19 +100,19 @@ namespace XyCar
                 state_.left_pos_ = -1;
             }
             else{
-                state_.left_pos_ = static_cast<int32_t>((k_offset - state_.left_intercept_)/ state_.left_slope_);
+                state_.left_pos_ = static_cast<int32_t>((offset - state_.left_intercept_)/ state_.left_slope_);
                 if(state_.left_pos_ < 0)
                     state_.left_pos_ = 0;
             }
         }
         else{
             if(std::round(state_.right_slope_) == 0 && std::round(state_.right_intercept_) == 0){
-                state_.right_pos_ = k_frame_width + 1;
+                state_.right_pos_ = frame_width + 1;
             }
             else{
-                state_.right_pos_ = static_cast<int32_t>((k_offset - state_.right_intercept_)/ state_.right_slope_);
-                if(state_.right_pos_ > k_frame_width)
-                    state_.right_pos_ = k_frame_width;
+                state_.right_pos_ = static_cast<int32_t>((offset - state_.right_intercept_)/ state_.right_slope_);
+                if(state_.right_pos_ > frame_width)
+                    state_.right_pos_ = frame_width;
             }
         }
     }
@@ -115,25 +123,25 @@ namespace XyCar
         constexpr double k_upper_limit = 1.0;
 
         if(state_.left_pos_ < 0){
-            if((state_.right_pos_ <= k_frame_width) && (k_under_limit < abs(state_.right_slope_)) && (abs(state_.right_slope_) < k_upper_limit)){
-                state_.left_pos_ = state_.right_pos_ - k_lane_width;
+            if((state_.right_pos_ <= frame_width) && (k_under_limit < abs(state_.right_slope_)) && (abs(state_.right_slope_) < k_upper_limit)){
+                state_.left_pos_ = state_.right_pos_ - lane_width;
                 state_.left_slope_ = -state_.right_slope_;
-                state_.left_intercept_ = k_offset - state_.left_slope_ * state_.left_pos_;
+                state_.left_intercept_ = offset - state_.left_slope_ * state_.left_pos_;
                 if(state_.left_pos_ < 0) state_.left_pos_ = 0;
             }
             else {
                 state_.left_pos_ = 0;
             }
         }
-        else if(state_.right_pos_ > k_frame_width){
+        else if(state_.right_pos_ > frame_width){
             if((state_.left_pos_ >= 0) && (k_under_limit < abs(state_.left_slope_)) && (abs(state_.left_slope_) < k_upper_limit)){
-                state_.right_pos_ = state_.left_pos_ + k_lane_width;
+                state_.right_pos_ = state_.left_pos_ + lane_width;
                 state_.right_slope_ = -state_.left_slope_;
-                state_.right_intercept_ = k_offset - state_.right_slope_ * state_.right_pos_;
-                if(state_.right_pos_ > k_lane_width) state_.right_pos_ = k_frame_width;
+                state_.right_intercept_ = offset - state_.right_slope_ * state_.right_pos_;
+                if(state_.right_pos_ > lane_width) state_.right_pos_ = frame_width;
             }
             else {
-                state_.right_pos_ = k_frame_width;
+                state_.right_pos_ = frame_width;
             }
         }
     }

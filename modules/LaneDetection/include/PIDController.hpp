@@ -11,6 +11,7 @@ namespace XyCar{
 class PIDController
 {
 public:
+    using Ptr = PIDController*;
     /**
      * @details Construct a new PID Object.
      * @param[in] p_gain Proportional control gain.
