@@ -27,7 +27,7 @@ public:
      * @param[in] is_refining Flag about whether to refine position of lane.
      * @return State
      */
-    State find_state(const cv::Mat& canny_crop, bool is_refining = true)
+    State find_state(const cv::Mat& canny_crop, bool is_refining = false)
     {
         std::vector<cv::Vec4i> lines;
         cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 30, 30, 5);

@@ -68,8 +68,8 @@ namespace XyCar
             draw_rectangle(draw_image, frame_centor, cv::Scalar(0,0,255),offset);
 
             PREC angle = pid_controller_->compute_angle(error);
-            // std::cout <<"error: " << error << std::endl;
-            // std::cout <<"angle: " << angle << std::endl;
+            std::cout <<"error: " << error << std::endl;
+            std::cout <<"angle: " << angle << std::endl;
 
             publisher_.publish(xycar_controller->control(angle));
 
