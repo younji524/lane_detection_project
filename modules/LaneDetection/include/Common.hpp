@@ -13,7 +13,8 @@ using PREC = double; ///< PRECISION Data type for maintenance.
 /**
  * @details  A structure that represents the state of the lanes.
  */
-struct State {
+struct State
+{
   PREC left_slope_;      ///< The slope of left lane.
   PREC left_intercept_;  ///< The intercept of left lane.
   PREC right_slope_;     ///< The slope of right lane.
