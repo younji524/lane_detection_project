@@ -170,6 +170,6 @@ private:
 
   State state_;  ///< The state of lane.
 };
-} // namespace XyCar
+} // XyCar
 
 #endif // LANE_DETECTION__LANEDETECTOR_HPP
