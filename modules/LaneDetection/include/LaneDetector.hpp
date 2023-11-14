@@ -38,7 +38,12 @@ public:
   {
     std::vector<cv::Vec4i> lines;
     // TODO: 상수들 constexpr 혹은 configuration으로 지정하기!
-    cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 30, 30, 5);
+    constexpr PREC rho = 1.0;
+    constexpr PREC theta = CV_PI / 180.0;
+    constexpr int32_t threshold = 30;
+    constexpr PREC min_line_length = 30;
+    constexpr PREC min_line_gap = 5;
+    cv::HoughLinesP(canny_crop, lines, rho, theta, threshold, min_line_length, min_line_gap);
 
 #if DEBUG
     cv::Mat hough_image = canny_crop.clone();
@@ -151,14 +156,16 @@ private:
     cv::imshow("divide_line", divide_line);
 #endif
 
+    constexpr bool is_right = false;
+
     calculate_slope_and_intercept(left_lines);
-    calculate_slope_and_intercept(right_lines, false);
+    calculate_slope_and_intercept(right_lines, is_right);
     // kalman_.predict();
     find_stop_line(stop_lines);
 
     // calculate lpos, rpos
     calculate_pos();
-    calculate_pos(false);
+    calculate_pos(is_right);
     // kalman_.update();
   }
 
