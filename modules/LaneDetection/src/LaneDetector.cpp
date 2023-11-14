@@ -19,8 +19,12 @@ namespace XyCar
         constexpr double k_low_slope_threshold = 0.1;
         constexpr double k_stop_slpoe_threshold = 0.15;
 
-        int32_t half_frame = frame_width / 2;
+        // int32_t half_frame = frame_width / 2;
         int32_t threshold_location = frame_width / 5;
+
+        int32_t left_range = frame_width * 0.7;
+        int32_t right_range = frame_width * 0.3;
+
 
         for(const cv::Vec4i& line : lines)
         {
@@ -34,10 +38,10 @@ namespace XyCar
 
             double slope = static_cast<double>(y2 - y1) / (x2 - x1);
 
-            if((slope < -k_low_slope_threshold) && (x1 < half_frame))
+            if((slope < -k_low_slope_threshold) && (x1 < left_range))
                 left_lines.emplace_back(x1,y1,x2,y2);
 
-            else if((slope > k_low_slope_threshold) && (x2 > half_frame))
+            else if((slope > k_low_slope_threshold) && (x2 > right_range))
                 right_lines.emplace_back(x1,y1,x2,y2);
 
             else if((abs(slope) <= k_stop_slpoe_threshold) && (x1 > threshold_location) && (x2 < threshold_location * 4))
@@ -91,13 +95,25 @@ namespace XyCar
                 state_.right_intercept_ = intercept_sum / length_sum;
             }
         }
+        // else
+        // {
+        //     if(is_left){
+        //         state_.left_slope_ = 0;
+        //         state_.left_intercept_ = 0;
+        //     }
+        //     else{
+        //         state_.right_slope_ = 0;
+        //         state_.right_intercept_ = 0;
+        //     }
+        // }
     }
 
     void LaneDetector::calculate_pos(bool is_left)
     {
         if(is_left){
             if(std::round(state_.left_slope_) == 0 && std::round(state_.left_intercept_) == 0){
-                state_.left_pos_ = -1;
+                // state_.left_pos_ = -1; //for refine_pos
+                state_.left_pos_ = 0;
             }
             else{
                 state_.left_pos_ = static_cast<int32_t>((offset - state_.left_intercept_)/ state_.left_slope_);
@@ -107,7 +123,8 @@ namespace XyCar
         }
         else{
             if(std::round(state_.right_slope_) == 0 && std::round(state_.right_intercept_) == 0){
-                state_.right_pos_ = frame_width + 1;
+                // state_.right_pos_ = frame_width + 1; //for refine_pos
+                state_.right_pos_ = frame_width;
             }
             else{
                 state_.right_pos_ = static_cast<int32_t>((offset - state_.right_intercept_)/ state_.right_slope_);

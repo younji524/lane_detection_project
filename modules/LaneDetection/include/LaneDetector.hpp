@@ -37,13 +37,10 @@ public:
         for(cv::Vec4i line : lines) {
             cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
         }
-        // for(cv::Vec4i line : right_lines) {
-        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,255,0), 2, cv::LINE_8);
-        // }
 
         cv::imshow("hough_image", hough_image);
         
-        evaluate(lines);
+        evaluate(lines, canny_crop);
 
         if (is_refining)
             refine_pos();
@@ -112,21 +109,21 @@ private:
      * @param[in] lines Coordinates consisting of starting and ending points (x, y).
      * @return void
      */
-    void evaluate(const std::vector<cv::Vec4i>& lines)
+    // void evaluate(const std::vector<cv::Vec4i>& lines)
+    void evaluate(const std::vector<cv::Vec4i>& lines, const cv::Mat& canny_crop)
     {
         std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
         divide_left_right_line(lines, left_lines, right_lines, stop_lines);
 
-        // cv::Mat hough_image = canny_crop.clone();
-        // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
-        // for(cv::Vec4i line : left_lines) {
-        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
-        // }
-        // for(cv::Vec4i line : right_lines) {
-        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,255,0), 2, cv::LINE_8);
-        // }
-
-        // cv::imshow("hough_image", hough_image);
+        cv::Mat divide_line = canny_crop.clone();
+        cv::cvtColor(divide_line ,divide_line, cv::COLOR_GRAY2BGR);
+        for(cv::Vec4i line : left_lines) {
+            cv::line(divide_line, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+        }
+        for(cv::Vec4i line : right_lines) {
+            cv::line(divide_line, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,255,0), 2, cv::LINE_8);
+        }
+        cv::imshow("divide_line", divide_line);
 
         calculate_slope_and_intercept(left_lines);
         calculate_slope_and_intercept(right_lines, false);

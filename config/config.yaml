@@ -1,17 +1,17 @@
 IMAGE:
   WIDTH: 640
   HEIGHT: 480
-  ROI_HEIGHT : 60
-  ROI_Y_POS : 300
+  ROI_HEIGHT : 30 # 60
+  ROI_Y_POS : 330 # 300
   # find your ROI parameter.
 
 LANE:
   LANE_WIDTH : 490
-  OFFSET : 400
+  OFFSET : 345
 
 XYCAR:
   START_SPEED: 5.0
-  MAX_SPEED: 7.0
+  MAX_SPEED: 10.0
   MIN_SPEED: 3.0
   STEP_SPEED: 0.1
   # SPEED_CONTROL_THRESHOLD: 0.0
@@ -21,9 +21,9 @@ XYCAR:
 
 # If you want to use other control methods, Change PID to another control methods.
 PID:
-  P_GAIN: 1.0
+  P_GAIN: 3.0
   I_GAIN: 0.0000 # 0.0006
-  D_GAIN: 0.000 # 0.025
+  D_GAIN: 0.1 # 0.025
   # find your parameter.
 
 # MOVING_AVERAGE_FILTER:
