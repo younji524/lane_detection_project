@@ -63,13 +63,6 @@ public:
   }
 
 private:
-  uint32_t frame_width;  ///< The frame width of an original image.
-  uint32_t roi_frame_y;  ///< The y-coordinate for roi setting.
-  uint32_t offset;  ///< The offset for position of lane.
-  uint32_t lane_width;  ///< The lane width for estimation.
-
-  State state_;  ///< The state of lane.
-
   /**
    * @details Set values from configuration.
    * @param[in] config The configuration of lane_detection project.
@@ -170,6 +163,12 @@ private:
   }
 
   // KalmanFilter kalman_;
+  uint32_t frame_width;  ///< The frame width of an original image.
+  uint32_t roi_frame_y;  ///< The y-coordinate for roi setting.
+  uint32_t offset;  ///< The offset for position of lane.
+  uint32_t lane_width;  ///< The lane width for estimation.
+
+  State state_;  ///< The state of lane.
 };
 } // namespace XyCar
 
