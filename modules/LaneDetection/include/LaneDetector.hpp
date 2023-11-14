@@ -17,6 +17,7 @@ class LaneDetector
 {
 public:
     using Ptr = LaneDetector*;
+    cv::Mat canny_crop;
 
     LaneDetector(const YAML::Node& config) {set_configuration(config);}
 
@@ -29,8 +30,19 @@ public:
     State find_state(const cv::Mat& canny_crop, bool is_refining = true)
     {
         std::vector<cv::Vec4i> lines;
-        cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 60, 60, 5);
+        cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 30, 30, 5);
 
+        cv::Mat hough_image = canny_crop.clone();
+        cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+        for(cv::Vec4i line : lines) {
+            cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+        }
+        // for(cv::Vec4i line : right_lines) {
+        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,255,0), 2, cv::LINE_8);
+        // }
+
+        cv::imshow("hough_image", hough_image);
+        
         evaluate(lines);
 
         if (is_refining)
@@ -44,6 +56,7 @@ private:
     uint32_t roi_frame_y;
     uint32_t offset;
     uint32_t lane_width;
+    
     State state_;
 
     /**
@@ -103,6 +116,17 @@ private:
     {
         std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
         divide_left_right_line(lines, left_lines, right_lines, stop_lines);
+
+        // cv::Mat hough_image = canny_crop.clone();
+        // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+        // for(cv::Vec4i line : left_lines) {
+        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+        // }
+        // for(cv::Vec4i line : right_lines) {
+        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,255,0), 2, cv::LINE_8);
+        // }
+
+        // cv::imshow("hough_image", hough_image);
 
         calculate_slope_and_intercept(left_lines);
         calculate_slope_and_intercept(right_lines, false);

@@ -14,6 +14,7 @@
 #include "LaneDetector.hpp"
 #include "PIDController.hpp"
 #include "XycarController.hpp"
+#include "draw.hpp"
 
 namespace XyCar
 {
