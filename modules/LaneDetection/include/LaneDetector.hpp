@@ -27,7 +27,8 @@ public:
      * @param[in] is_refining Flag about whether to refine position of lane.
      * @return State
      */
-    State find_state(const cv::Mat& canny_crop, bool is_refining = false)
+    // State find_state(const cv::Mat& canny_crop, bool is_refining = false)
+    State find_state(const cv::Mat& canny_crop, cv::Mat& draw_image, bool is_refining = false)
     {
         std::vector<cv::Vec4i> lines;
         cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 30, 30, 5);
@@ -39,8 +40,8 @@ public:
         }
 
         cv::imshow("hough_image", hough_image);
-        
-        evaluate(lines, canny_crop);
+
+        evaluate(lines, draw_image);
 
         if (is_refining)
             refine_pos();
@@ -53,7 +54,7 @@ private:
     uint32_t roi_frame_y;
     uint32_t offset;
     uint32_t lane_width;
-    
+
     State state_;
 
     /**
@@ -110,20 +111,17 @@ private:
      * @return void
      */
     // void evaluate(const std::vector<cv::Vec4i>& lines)
-    void evaluate(const std::vector<cv::Vec4i>& lines, const cv::Mat& canny_crop)
+    void evaluate(const std::vector<cv::Vec4i>& lines, cv::Mat& draw_image)
     {
         std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
         divide_left_right_line(lines, left_lines, right_lines, stop_lines);
 
-        cv::Mat divide_line = canny_crop.clone();
-        cv::cvtColor(divide_line ,divide_line, cv::COLOR_GRAY2BGR);
         for(cv::Vec4i line : left_lines) {
-            cv::line(divide_line, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+            cv::line(draw_image, cv::Point(line[0], line[1]+roi_frame_y), cv::Point(line[2], line[3]+roi_frame_y), cv::Scalar(255,0,255), 2, cv::LINE_8);
         }
         for(cv::Vec4i line : right_lines) {
-            cv::line(divide_line, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,255,0), 2, cv::LINE_8);
+            cv::line(draw_image, cv::Point(line[0], line[1]+roi_frame_y), cv::Point(line[2], line[3]+roi_frame_y), cv::Scalar(255,255,0), 2, cv::LINE_8);
         }
-        cv::imshow("divide_line", divide_line);
 
         calculate_slope_and_intercept(left_lines);
         calculate_slope_and_intercept(right_lines, false);
