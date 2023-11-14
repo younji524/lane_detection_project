@@ -2,6 +2,7 @@
 #define LANE_DETECTION__XYCARCONTROLLER_HPP
 
 // system header
+#include <algorithm>
 #include <cmath>
 
 // third party header

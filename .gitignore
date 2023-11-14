@@ -12,4 +12,6 @@ _deps
 
 build/
 thirdparty/
+*.bag
+.vscode/
 .cache/
