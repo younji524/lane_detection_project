@@ -6,7 +6,6 @@
 #define LANE_DETECTION__LANEDETECTOR_HPP
 
 #include "opencv2/opencv.hpp"
-#include <yaml-cpp/yaml.h>
 #include "Common.hpp"
 
 namespace XyCar
@@ -41,10 +40,10 @@ public:
     }
 
 private:
-    uint32_t k_frame_width;
-    uint32_t k_roi_frame_y;
-    uint32_t k_offset;
-    uint32_t k_lane_width;
+    uint32_t frame_width;
+    uint32_t roi_frame_y;
+    uint32_t offset;
+    uint32_t lane_width;
     State state_;
 
     /**
@@ -117,7 +116,6 @@ private:
     }
 
     // KalmanFilter kalman_;
-    
 };
 } // XyCar
 

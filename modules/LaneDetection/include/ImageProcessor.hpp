@@ -2,7 +2,6 @@
 #define LANE_DETECTION__IMAGEPROCESSOR_HPP
 
 #include "opencv2/opencv.hpp"
-#include <yaml-cpp/yaml.h>
 #include <cstdint>
 
 namespace XyCar
@@ -36,9 +35,9 @@ public:
 private:
     cv::Mat cropped_frame_;
     // cv::Mat mask_lidar_;
-    uint32_t k_roi_frame_y;
-    uint32_t k_frame_width;
-    uint32_t k_roi_frame_height;
+    uint32_t roi_frame_y;
+    uint32_t frame_width;
+    uint32_t roi_frame_height;
 
     /**
      * @details set values from config

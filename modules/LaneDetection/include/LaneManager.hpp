@@ -4,7 +4,6 @@
 // system header
 #include <queue>
 #include <iostream>
-#include <yaml-cpp/yaml.h>
 
 // third party header
 #include "sensor_msgs/Image.h"
@@ -37,9 +36,9 @@ private:
     // std::queue <cv::Mat> current_images_;
     cv::Mat image_;
     static constexpr double k_frame_rate = 33.0; ///< Frame rate
-    uint32_t k_frame_width;
-    uint32_t k_frame_height; //for draw
-    uint32_t k_offset; //for draw
+    uint32_t frame_width;
+    uint32_t frame_height; //for draw
+    uint32_t offset; //for draw
 
     void set_parameters(const YAML::Node& config);
     void image_callback(const sensor_msgs::Image& message);

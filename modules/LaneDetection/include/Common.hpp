@@ -2,6 +2,7 @@
 #define LANE_DETECTION__COMMON_HPP
 
 #include <cstdint>
+#include <yaml-cpp/yaml.h>
 
 namespace XyCar
 {

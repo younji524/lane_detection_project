@@ -3,7 +3,6 @@
 
 // system header
 #include <cmath>
-#include <yaml-cpp/yaml.h>
 
 // third party header
 #include "ros/ros.h"
