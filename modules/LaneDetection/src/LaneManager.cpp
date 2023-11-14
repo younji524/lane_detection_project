@@ -53,8 +53,8 @@ namespace XyCar
             draw_line_slope(draw_image, lane_state.left_slope_, lane_state.left_intercept_, cv::Scalar(255,0,0), frame_height);
             draw_line_slope(draw_image, lane_state.right_slope_, lane_state.right_intercept_, cv::Scalar(255,0,0), frame_height);
 
-            std::cout << "lpos: " << lane_state.left_pos_ << std::endl;
-            std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
+            // std::cout << "lpos: " << lane_state.left_pos_ << std::endl;
+            // std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
             // std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
 
             int32_t lane_centor = static_cast<int32_t>(lane_state.right_pos_ + lane_state.left_pos_) >> 1;
