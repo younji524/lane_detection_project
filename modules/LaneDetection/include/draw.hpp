@@ -2,6 +2,7 @@
 #define LANE_DETECTION__DRAW_HPP
 
 #include "opencv2/opencv.hpp"
+#include "Common.hpp"
 
 namespace XyCar
 {

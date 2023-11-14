@@ -3,6 +3,8 @@
 
 #include "opencv2/opencv.hpp"
 #include <cstdint>
+#include "Common.hpp"
+
 
 namespace XyCar
 {
