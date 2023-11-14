@@ -8,7 +8,7 @@
 
 namespace XyCar
 {
-    using PREC = double;
+    using PREC = double;  ///< PRECISION Data type for maintenance.
 
     /**
      * @details  A structure that represents the state of the lanes.
