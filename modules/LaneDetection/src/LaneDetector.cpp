@@ -22,8 +22,8 @@ namespace XyCar
         // int32_t half_frame = frame_width / 2;
         int32_t threshold_location = frame_width / 5;
 
-        int32_t left_range = frame_width * 0.7;
-        int32_t right_range = frame_width * 0.3;
+        int32_t left_range = frame_width * 0.6;
+        int32_t right_range = frame_width * 0.4;
 
 
         for(const cv::Vec4i& line : lines)
@@ -95,17 +95,17 @@ namespace XyCar
                 state_.right_intercept_ = intercept_sum / length_sum;
             }
         }
-        // else
-        // {
-        //     if(is_left){
-        //         state_.left_slope_ = 0;
-        //         state_.left_intercept_ = 0;
-        //     }
-        //     else{
-        //         state_.right_slope_ = 0;
-        //         state_.right_intercept_ = 0;
-        //     }
-        // }
+        else //thers is no lines
+        {
+            if(is_left){
+                state_.left_slope_ = 0;
+                state_.left_intercept_ = 0;
+            }
+            else{
+                state_.right_slope_ = 0;
+                state_.right_intercept_ = 0;
+            }
+        }
     }
 
     void LaneDetector::calculate_pos(bool is_left)

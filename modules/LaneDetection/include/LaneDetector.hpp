@@ -31,7 +31,7 @@ public:
     State find_state(const cv::Mat& canny_crop, cv::Mat& draw_image, bool is_refining = false)
     {
         std::vector<cv::Vec4i> lines;
-        cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 30, 30, 5);
+        cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 20, 20, 5);
 
         cv::Mat hough_image = canny_crop.clone();
         cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
