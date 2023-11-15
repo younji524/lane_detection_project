@@ -70,7 +70,7 @@ namespace XyCar
             // std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
             // std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
             cv::putText(draw_image, cv::format("%.1f", lane_state.left_pos_), cv::Point(lane_state.left_pos_, offset), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,0,0));
-            cv::putText(draw_image, cv::format("%.1f", lane_state.right_pos_), cv::Point(lane_state.right_pos_, offset), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,0,0));
+            cv::putText(draw_image, cv::format("%.1f", lane_state.right_pos_), cv::Point(lane_state.right_pos_-100, offset), cv::FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,0,0));
 
 
             int32_t lane_centor = static_cast<int32_t>(lane_state.right_pos_ + lane_state.left_pos_) >> 1;
