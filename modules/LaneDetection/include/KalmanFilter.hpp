@@ -20,6 +20,34 @@ public:
      */
     // void init();
 
+    void kalman_filtering(PREC slope, PREC intercept);
+
+    /**
+     * @details Get the state matrix. \n
+     * When you want to receive the slope and intercept, \n
+     * you receive it using the cv::Mat::at() method. \n
+     * ex) slope = state_mat.at<PREC>(0, 0); \n
+     * ex) intercept = state_mat.at<PREC>(2, 0); \n
+     * @return const Mat&
+     */
+    const cv::Mat_<PREC>& get_state() const;
+
+private:
+    PREC slope_derivative_;
+    PREC intercept_derivative_;
+    PREC dt_;
+    PREC estimation_slope_;
+    PREC estimation_intercept_;
+    bool is_first_ = true;
+
+    cv::Mat_<PREC> state_matrix_;  // x: 상태 추정치
+    cv::Mat_<PREC> transition_matrix_;  // A: 상태 변환 행렬
+    cv::Mat_<PREC> measurement_matrix_;  // H: 측정 행렬
+    cv::Mat_<PREC> process_noise_matrix_;  // Q: 과정 노이즈 공분산
+    cv::Mat_<PREC> measurement_noise_matrix_;  // R: 측정 노이즈 공분산
+    cv::Mat_<PREC> covariance_matrix_;  // P: 오차 공분산
+    cv::Mat_<PREC> kalman_gain_;  // K: 칼만 이득
+
     /**
      * @details Perform the prediction steps of the Kalman filter. \n
      *          Predicts the state vector using a given 'slope' and 'intercept'. \n
@@ -41,28 +69,6 @@ public:
      * @return void
      */
     void update(PREC avg_slope, PREC avg_intercept);
-
-    /**
-     * @details Get the state matrix. \n
-     * When you want to receive the slope and intercept, \n
-     * you receive it using the cv::Mat::at() method. \n
-     * ex) slope = state_mat.at<PREC>(0, 0); \n
-     * ex) intercept = state_mat.at<PREC>(2, 0); \n
-     * @return const Mat&
-     */
-    const cv::Mat_<PREC>& get_state() const;
-
-private:
-    PREC slope_derivative_;
-    PREC intercept_derivative_;
-    PREC dt_;
-    cv::Mat_<PREC> state_matrix_;  // x: 상태 추정치
-    cv::Mat_<PREC> transition_matrix_;  // A: 상태 변환 행렬
-    cv::Mat_<PREC> measurement_matrix_;  // H: 측정 행렬
-    cv::Mat_<PREC> process_noise_matrix_;  // Q: 과정 노이즈 공분산
-    cv::Mat_<PREC> measurement_noise_matrix_;  // R: 측정 노이즈 공분산
-    cv::Mat_<PREC> covariance_matrix_;  // P: 오차 공분산
-    cv::Mat_<PREC> kalman_gain_;  // K: 칼만 이득
 };
 } // XyCar
 

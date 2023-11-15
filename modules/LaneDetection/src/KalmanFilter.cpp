@@ -5,14 +5,26 @@ namespace XyCar
     KalmanFilter::KalmanFilter()
     {
         dt_ = 1.0 / 30;
-        slope_derivative_ = -0.015;
-        intercept_derivative_ = -3.0;
+        slope_derivative_ = -0.0005;
+        intercept_derivative_ = -0.1;
 
         transition_matrix_ = (cv::Mat_<PREC>(4, 4) << 1, dt_, 0, 0, 0, 1, 0, 0, 0, 0, 1, dt_, 0, 0, 0, 1);
         measurement_matrix_ = (cv::Mat_<PREC>(2,4) << 1, 0, 0, 0, 0, 0, 1, 0);
         process_noise_matrix_ = cv::Mat::eye(4, 4, CV_64F);
         measurement_noise_matrix_ = (cv::Mat_<PREC>(2, 2) << 50, 0, 0, 50);
         covariance_matrix_ = 100 * cv::Mat::eye(4, 4, CV_64F);
+    }
+
+    void KalmanFilter::kalman_filtering(PREC slope, PREC intercept)
+    {
+        if(is_first_){
+            estimation_slope_ = slope;
+            estimation_intercept_ = intercept;
+            is_first_ = false;
+        }
+        
+        predict(estimation_slope_, estimation_intercept_);
+        update(slope, intercept);
     }
 
     void KalmanFilter::predict(PREC slope, PREC intercept)
