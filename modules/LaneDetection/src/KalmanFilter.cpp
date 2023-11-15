@@ -5,9 +5,10 @@ namespace XyCar
     KalmanFilter::KalmanFilter()
     {
         dt_ = 1.0 / 30;
-        slope_derivative_ = -0.0005;
-        intercept_derivative_ = -0.1;
+        slope_derivative_ = -0.015;
+        intercept_derivative_ = -3.0;
 
+        state_matrix_ = cv::Mat_<PREC>(4, 1);
         transition_matrix_ = (cv::Mat_<PREC>(4, 4) << 1, dt_, 0, 0, 0, 1, 0, 0, 0, 0, 1, dt_, 0, 0, 0, 1);
         measurement_matrix_ = (cv::Mat_<PREC>(2,4) << 1, 0, 0, 0, 0, 0, 1, 0);
         process_noise_matrix_ = cv::Mat::eye(4, 4, CV_64F);
@@ -18,32 +19,32 @@ namespace XyCar
     void KalmanFilter::kalman_filtering(PREC slope, PREC intercept)
     {
         if(is_first_){
-            estimation_slope_ = slope;
-            estimation_intercept_ = intercept;
+            state_matrix_.at<PREC>(0,0) = slope;
+            state_matrix_.at<PREC>(2,0) = intercept;
             is_first_ = false;
         }
         
-        predict(estimation_slope_, estimation_intercept_);
+        predict(state_matrix_.at<PREC>(0,0), state_matrix_.at<PREC>(2,0));
         update(slope, intercept);
     }
 
-    void KalmanFilter::predict(PREC slope, PREC intercept)
+    void KalmanFilter::predict(PREC estimation_slope, PREC estimation_intercept)
     {
-        state_matrix_ = transition_matrix_ * (cv::Mat_<PREC>(4,1) << slope, slope_derivative_, intercept, intercept_derivative_);
+        state_matrix_ = transition_matrix_ * (cv::Mat_<PREC>(4,1) << estimation_slope, slope_derivative_, estimation_intercept, intercept_derivative_);
         static const auto transition_matrix_t = transition_matrix_.t();
         covariance_matrix_ = transition_matrix_ * covariance_matrix_ * transition_matrix_t + process_noise_matrix_;
     }
 
-    void KalmanFilter::update(PREC avg_slope, PREC avg_intercept)
+    void KalmanFilter::update(PREC slope, PREC intercept)
     {
         // kalman gain
         static const auto measurement_matrix_t = measurement_matrix_.t();
         kalman_gain_ = covariance_matrix_ * measurement_matrix_t * (measurement_matrix_ * covariance_matrix_ * measurement_matrix_t + measurement_noise_matrix_).inv();
 
         // if (pos > 0 && pos < 640)
-        if(avg_slope != 0 || avg_intercept != 0)
+        if(slope != 0 || intercept != 0)
         {
-            cv::Mat measurement = (cv::Mat_<PREC>(2, 1) << avg_slope, avg_intercept);
+            cv::Mat measurement = (cv::Mat_<PREC>(2, 1) << slope, intercept);
             state_matrix_ += kalman_gain_ * (measurement - measurement_matrix_ * state_matrix_);
         }
 

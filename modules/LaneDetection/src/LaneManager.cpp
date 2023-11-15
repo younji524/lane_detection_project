@@ -24,6 +24,7 @@ namespace XyCar
         frame_width = config["IMAGE"]["WIDTH"].as<uint32_t>();
         frame_height = config["IMAGE"]["HEIGHT"].as<uint32_t>(); //for draw
         offset = config["LANE"]["OFFSET"].as<uint32_t>(); //for draw
+        video_name = config["VIDEO"]["VIDEO_NAME"].as<std::string>();
     }
 
     void LaneManager::image_callback(const sensor_msgs::Image& message)
@@ -38,7 +39,7 @@ namespace XyCar
         std::string video_path;
         node_handler_.getParam("video_path", video_path);
 
-        videoWriter.open(video_path + "kalman_filtering.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),
+        videoWriter.open(video_path + video_name,  cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),
 		k_frame_rate , cv::Size(frame_width, frame_height));
 
         if (!videoWriter.isOpened())

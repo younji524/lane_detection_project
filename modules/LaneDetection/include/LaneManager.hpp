@@ -4,6 +4,7 @@
 // system header
 #include <queue>
 #include <iostream>
+#include <string>
 
 // third party header
 #include "sensor_msgs/Image.h"
@@ -40,6 +41,7 @@ private:
     uint32_t frame_width;
     uint32_t frame_height; //for draw
     uint32_t offset; //for draw
+    std::string video_name;
 
     void set_parameters(const YAML::Node& config);
     void image_callback(const sensor_msgs::Image& message);

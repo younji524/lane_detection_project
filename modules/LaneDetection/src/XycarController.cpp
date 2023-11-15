@@ -26,7 +26,7 @@ namespace XyCar
         // when xycar turn
         if(std::abs(angle) > 10)
         {
-            speed_ -= k_step_speed_;
+            speed_ -= k_step_speed_*2;
             speed_ = std::max(speed_, k_min_speed_);
         }
         // when xycar go straight

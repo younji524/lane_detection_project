@@ -5,6 +5,7 @@
 #ifndef LANE_DETECTION__LANEDETECTOR_HPP
 #define LANE_DETECTION__LANEDETECTOR_HPP
 
+#include <iostream>
 #include "opencv2/opencv.hpp"
 #include "Common.hpp"
 #include "KalmanFilter.hpp"
@@ -130,27 +131,16 @@ private:
 
         cv::Mat_<PREC> kalman_estimation_matrix;
 
-        PREC before_slope = state_.left_slope_;
         left_kalman_.kalman_filtering(state_.left_slope_, state_.left_intercept_);
         kalman_estimation_matrix = left_kalman_.get_state();
         state_.left_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
         state_.left_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
-        if(before_slope == 0){
-            std::cout << "-----left------" << std::endl;
-            std::cout << "before_____left_slope_ : " << before_slope<< std::endl;
-            std::cout << "after_____left_slope_ : " << state_.left_slope_ << std::endl;
-        }
 
-        before_slope = state_.right_slope_;
         right_kalman_.kalman_filtering(state_.right_slope_, state_.right_intercept_);
         kalman_estimation_matrix = right_kalman_.get_state();
         state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
         state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
-        if(before_slope == 0){
-            std::cout << "-----right------" << std::endl;
-            std::cout << "before_____right_slope_ : " << before_slope<< std::endl;
-            std::cout << "after_____right_slope_ : " << state_.right_slope_ << std::endl;
-        }
+
         // find_stop_line(stop_lines);
 
         // calculate lpos, rpos

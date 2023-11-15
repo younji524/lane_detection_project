@@ -1,6 +1,7 @@
 #ifndef LANE_DETECTION__KALMANFILTER_HPP
 #define LANE_DETECTION__KALMANFILTER_HPP
 
+#include <iostream>
 #include "Common.hpp"
 #include "opencv2/opencv.hpp"
 
@@ -36,8 +37,6 @@ private:
     PREC slope_derivative_;
     PREC intercept_derivative_;
     PREC dt_;
-    PREC estimation_slope_;
-    PREC estimation_intercept_;
     bool is_first_ = true;
 
     cv::Mat_<PREC> state_matrix_;  // x: 상태 추정치

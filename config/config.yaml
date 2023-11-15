@@ -11,8 +11,8 @@ LANE:
 
 XYCAR:
   START_SPEED: 5.0
-  MAX_SPEED: 10.0
-  MIN_SPEED: 3.0
+  MAX_SPEED: 20.0
+  MIN_SPEED: 7.0
   STEP_SPEED: 0.1
   # SPEED_CONTROL_THRESHOLD: 0.0
   # ACCELERATION_STEP: 0.00
@@ -21,10 +21,15 @@ XYCAR:
 
 # If you want to use other control methods, Change PID to another control methods.
 PID:
-  P_GAIN: 0.8
+  P_GAIN: 0.6
   I_GAIN: 0.0000 # 0.0006
-  D_GAIN: 0.0 # 0.025
+  D_GAIN: 0.025 # 0.025
   # find your parameter.
+
+KALMAN:
+
+VIDEO:
+  VIDEO_NAME: kalman_filtering(pgain0.6_dgain0.025_roi).avi
 
 # MOVING_AVERAGE_FILTER:
 #   SAMPLE_SIZE: 30
