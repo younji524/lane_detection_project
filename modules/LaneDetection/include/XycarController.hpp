@@ -33,7 +33,8 @@ private:
     // ros::Publisher publisher_;
     PREC k_max_speed_;
     PREC k_min_speed_;
-    PREC k_step_speed_;
+    PREC k_up_step_speed_;
+    PREC k_down_step_speed_;
     PREC speed_;
 
     /**
