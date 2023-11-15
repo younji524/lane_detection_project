@@ -73,7 +73,7 @@ private:
    * @param[in] pos The position of the lane. (x coordinate)
    * @return void
    */
-  void update(PREC avg_slope, PREC avg_intercept, PREC pos);
+  void update(PREC avg_slope, PREC avg_intercept);
 
   /**
    * @details Get the state matrix. \n
@@ -83,8 +83,6 @@ private:
    * ex) intercept = state_mat.at<PREC>(2, 0); \n
    * @return const Mat&
    */
-
-
 };
 } // XyCar
 
