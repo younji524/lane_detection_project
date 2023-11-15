@@ -35,13 +35,13 @@ public:
         std::vector<cv::Vec4i> lines;
         cv::HoughLinesP(canny_crop, lines, 1, CV_PI / 180, 20, 20, 5);
 
-        cv::Mat hough_image = canny_crop.clone();
-        cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
-        for(cv::Vec4i line : lines) {
-            cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
-        }
+        // cv::Mat hough_image = canny_crop.clone();
+        // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+        // for(cv::Vec4i line : lines) {
+        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+        // }
 
-        cv::imshow("hough_image", hough_image);
+        // cv::imshow("hough_image", hough_image);
 
         evaluate(lines, draw_image);
 
@@ -58,7 +58,7 @@ private:
     uint32_t lane_width;
 
     State state_;
-    KalmanFilter left_kalman_, right_kalman_;
+    KalmanFilter::Ptr left_kalman_, right_kalman_;
 
     /**
      * @details set values from config
@@ -131,13 +131,13 @@ private:
 
         cv::Mat_<PREC> kalman_estimation_matrix;
 
-        left_kalman_.kalman_filtering(state_.left_slope_, state_.left_intercept_);
-        kalman_estimation_matrix = left_kalman_.get_state();
+        left_kalman_->kalman_filtering(state_.left_slope_, state_.left_intercept_);
+        kalman_estimation_matrix = left_kalman_->get_state();
         state_.left_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
         state_.left_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
 
-        right_kalman_.kalman_filtering(state_.right_slope_, state_.right_intercept_);
-        kalman_estimation_matrix = right_kalman_.get_state();
+        right_kalman_->kalman_filtering(state_.right_slope_, state_.right_intercept_);
+        kalman_estimation_matrix = right_kalman_->get_state();
         state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
         state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
 

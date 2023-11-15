@@ -13,7 +13,8 @@ namespace XyCar
 class KalmanFilter
 {
 public:
-    KalmanFilter();
+    using Ptr = KalmanFilter*;
+    KalmanFilter(const YAML::Node& config);
 
     /**
      * @details Initialize objects for applying the Kalman filter.

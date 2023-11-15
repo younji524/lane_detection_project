@@ -2,11 +2,11 @@
 
 namespace XyCar
 {
-    KalmanFilter::KalmanFilter()
+    KalmanFilter::KalmanFilter(const YAML::Node& config)
     {
         dt_ = 1.0 / 30;
-        slope_derivative_ = -0.015;
-        intercept_derivative_ = -3.0;
+        slope_derivative_ = config["KALMAN"]["SLOPE_DER"].as<PREC>();
+        intercept_derivative_ = config["KALMAN"]["INTERCEPT_DER"].as<PREC>();
 
         state_matrix_ = cv::Mat_<PREC>(4, 1);
         transition_matrix_ = (cv::Mat_<PREC>(4, 4) << 1, dt_, 0, 0, 0, 1, 0, 0, 0, 0, 1, dt_, 0, 0, 0, 1);

@@ -12,6 +12,10 @@ namespace XyCar
         frame_width = config["IMAGE"]["WIDTH"].as<uint32_t>();
         offset = config["LANE"]["OFFSET"].as<uint32_t>();
         lane_width = config["LANE"]["LANE_WIDTH"].as<uint32_t>();
+
+        left_kalman_ = new KalmanFilter(config);
+        right_kalman_ = new KalmanFilter(config);
+
     }
 
     void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i>& lines, std::vector<cv::Vec4i>& left_lines, std::vector<cv::Vec4i>& right_lines, std::vector<cv::Vec4i>& stop_lines)
