@@ -5,7 +5,7 @@
     <node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
 
 	<param name="config_path" type="str" value="$(find lane_detection)/config/config.yaml"/>
-	<param name="video_path" type="str" value="$(find lane_detection)/config/"/>
+	<param name="video_path" type="str" value="$(find lane_detection)/output/"/>
 
 	<!-- <include file="$(find xycar_motor)/launch/xycar_motor_a2.launch"/> -->
 </launch>

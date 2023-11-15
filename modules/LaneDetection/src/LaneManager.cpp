@@ -38,7 +38,7 @@ namespace XyCar
         std::string video_path;
         node_handler_.getParam("video_path", video_path);
 
-        videoWriter.open(video_path + "out.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), 
+        videoWriter.open(video_path + "out.avi", cv::VideoWriter::fourcc('M', 'J', 'P', 'G'),
 		k_frame_rate , cv::Size(frame_width, frame_height));
 
         if (!videoWriter.isOpened())
