@@ -3,7 +3,6 @@ IMAGE:
   HEIGHT: 480
   ROI_HEIGHT : 30 # 최대 380까지
   ROI_Y_POS : 350 # 300
-  # find your ROI parameter.
 
 LANE:
   LANE_WIDTH : 490
@@ -15,24 +14,18 @@ XYCAR:
   MIN_SPEED: 5.0
   UP_STEP_SPEED: 0.2
   DOWN_STEP_SPEED : 0.2
-  # SPEED_CONTROL_THRESHOLD: 0.0
-  # ACCELERATION_STEP: 0.00
-  # DECELERATION_STEP: 0.0
-  # find your parameter.
 
-# If you want to use other control methods, Change PID to another control methods.
 PID:
   P_GAIN: 0.6
   I_GAIN: 0.0004 # 0.0006
   D_GAIN: 0.05 # 0.025
-  # find your parameter.
 
 KALMAN:
   SLOPE_DER : -0.02 # -0.02
   INTERCEPT_DER : -3.5 # -3.0
 
 VIDEO:
-  VIDEO_NAME: last_test.avi
+  VIDEO_NAME: nahye_txt.avi
 
 # MOVING_AVERAGE_FILTER:
 #   SAMPLE_SIZE: 30

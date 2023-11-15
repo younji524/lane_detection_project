@@ -23,7 +23,6 @@ namespace XyCar
             state_matrix_.at<PREC>(2,0) = intercept;
             is_first_ = false;
         }
-        
         predict(state_matrix_.at<PREC>(0,0), state_matrix_.at<PREC>(2,0));
         update(slope, intercept);
     }
