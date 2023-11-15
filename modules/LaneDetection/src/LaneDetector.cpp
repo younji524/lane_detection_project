@@ -121,7 +121,7 @@ namespace XyCar
             }
             else{
                 state_.left_pos_ = static_cast<int32_t>((offset - state_.left_intercept_)/ state_.left_slope_);
-                if(state_.left_pos_ < 0)
+                if(state_.left_pos_ < 0 || state_.left_pos_ > frame_width)
                     state_.left_pos_ = 0;
             }
         }
@@ -132,7 +132,7 @@ namespace XyCar
             }
             else{
                 state_.right_pos_ = static_cast<int32_t>((offset - state_.right_intercept_)/ state_.right_slope_);
-                if(state_.right_pos_ > frame_width)
+                if(state_.right_pos_ > frame_width || state_.right_pos_ < 0)
                     state_.right_pos_ = frame_width;
             }
         }
