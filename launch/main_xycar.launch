@@ -16,6 +16,8 @@
 	<include file="$(find xycar_motor)/launch/xycar_motor.launch"/>
 
 	<param name="config_path" type="str" value="$(find lane_detection)/config/config.yaml"/>
+	<param name="video_path" type="str" value="$(find lane_detection)/output/"/>
+
 
     <!-- get parameter from config file path-->
     <!-- make your launch file to use your project. -->

@@ -11,13 +11,14 @@ namespace XyCar
  */
 class KalmanFilter
 {
-    KalmanFilter() = default;
+public:
+    KalmanFilter();
 
     /**
      * @details Initialize objects for applying the Kalman filter.
      * @return void
      */
-    void init();
+    // void init();
 
     /**
      * @details Perform the prediction steps of the Kalman filter. \n
@@ -39,7 +40,7 @@ class KalmanFilter
      * @param[in] pos The position of the lane. (x coordinate)
      * @return void
      */
-    void update(PREC avg_slope, PREC avg_intercept, PREC pos);
+    void update(PREC avg_slope, PREC avg_intercept);
 
     /**
      * @details Get the state matrix. \n
@@ -49,18 +50,19 @@ class KalmanFilter
      * ex) intercept = state_mat.at<PREC>(2, 0); \n
      * @return const Mat&
      */
-    const cv::Mat& get_state() const;
+    const cv::Mat_<PREC>& get_state() const;
 
 private:
     PREC slope_derivative_;
     PREC intercept_derivative_;
-    cv::Mat state_matrix_;  // x: 상태 추정치
-    cv::Mat transition_matrix_;  // A: 상태 변환 행렬
-    cv::Mat measurement_matrix_;  // H: 측정 행렬
-    cv::Mat process_noise_matrix_;  // Q: 과정 노이즈 공분산
-    cv::Mat measurement_noise_matrix_;  // R: 측정 노이즈 공분산
-    cv::Mat covariance_matrix_;  // P: 오차 공분산
-    cv::Mat kalman_gain_;  // K: 칼만 이득
+    PREC dt_;
+    cv::Mat_<PREC> state_matrix_;  // x: 상태 추정치
+    cv::Mat_<PREC> transition_matrix_;  // A: 상태 변환 행렬
+    cv::Mat_<PREC> measurement_matrix_;  // H: 측정 행렬
+    cv::Mat_<PREC> process_noise_matrix_;  // Q: 과정 노이즈 공분산
+    cv::Mat_<PREC> measurement_noise_matrix_;  // R: 측정 노이즈 공분산
+    cv::Mat_<PREC> covariance_matrix_;  // P: 오차 공분산
+    cv::Mat_<PREC> kalman_gain_;  // K: 칼만 이득
 };
 } // XyCar
 

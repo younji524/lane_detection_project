@@ -7,6 +7,7 @@
 
 #include "opencv2/opencv.hpp"
 #include "Common.hpp"
+#include "KalmanFilter.hpp"
 
 namespace XyCar
 {
@@ -56,6 +57,7 @@ private:
     uint32_t lane_width;
 
     State state_;
+    KalmanFilter left_kalman_, right_kalman_;
 
     /**
      * @details set values from config
@@ -125,16 +127,28 @@ private:
 
         calculate_slope_and_intercept(left_lines);
         calculate_slope_and_intercept(right_lines, false);
-        // kalman_.predict();
-        find_stop_line(stop_lines);
+
+        cv::Mat_<PREC> kalman_estimation_matrix;
+
+        left_kalman_.predict(state_.left_slope_, state_.left_intercept_);
+        left_kalman_.update(state_.left_slope_, state_.left_intercept_);
+        kalman_estimation_matrix = left_kalman_.get_state();
+        state_.left_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
+        state_.left_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
+
+        right_kalman_.predict(state_.right_slope_, state_.right_intercept_);
+        right_kalman_.update(state_.right_slope_, state_.right_intercept_);
+        kalman_estimation_matrix = right_kalman_.get_state();
+        state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
+        state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
+        
+        // find_stop_line(stop_lines);
 
         // calculate lpos, rpos
         calculate_pos();
         calculate_pos(false);
-        // kalman_.update();
     }
 
-    // KalmanFilter kalman_;
 };
 } // XyCar
 
