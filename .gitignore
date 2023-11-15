@@ -15,3 +15,4 @@ thirdparty/
 *.bag
 .vscode/
 .cache/
+output/*.avi
