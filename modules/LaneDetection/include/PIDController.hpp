@@ -4,38 +4,38 @@
 // user defined header
 #include "Common.hpp"
 
-namespace XyCar{
+namespace XyCar {
 /**
  * @details PID Controller Class
  */
-class PIDController
-{
+class PIDController {
 public:
-    using Ptr = PIDController*;
-    /**
-     * @details Construct a new PID Object.
-     * @param[in] p_gain Proportional control gain.
-     * @param[in] i_gain Integral control gain.
-     * @param[in] d_gain Differential control gain.
-     */
-    PIDController(PREC p_gain, PREC i_gain, PREC d_gain);
+  using Ptr = PIDController *;
+  /**
+   * @details Construct a new PID Object.
+   * @param[in] p_gain Proportional control gain.
+   * @param[in] i_gain Integral control gain.
+   * @param[in] d_gain Differential control gain.
+   */
+  PIDController(PREC p_gain, PREC i_gain, PREC d_gain);
 
-    /**
-     * @details Compute with the PID Control and return control error.
-     * @param[in] error Error between the estimated x coordinates and half of the image.
-     * @return XyCar::PREC
-     */
-    PREC compute_angle(int32_t error);
+  /**
+   * @details Compute with the PID Control and return control error.
+   * @param[in] error Error between the estimated x coordinates and half of the
+   * image.
+   * @return XyCar::PREC
+   */
+  PREC compute_angle(int32_t error);
 
 private:
-    PREC proportional_gain_;
-    PREC integral_gain_;
-    PREC differential_gain_;
+  PREC proportional_gain_;
+  PREC integral_gain_;
+  PREC differential_gain_;
 
-    PREC proportional_error_ = 0.0;
-    PREC integral_error_ = 0.0;
-    PREC differential_error_ = 0.0;
+  PREC proportional_error_ = 0.0;
+  PREC integral_error_ = 0.0;
+  PREC differential_error_ = 0.0;
 };
-} // XyCar
+} // namespace XyCar
 
 #endif // LANE_DETECTION__PIDCONTROLLER_HPP
