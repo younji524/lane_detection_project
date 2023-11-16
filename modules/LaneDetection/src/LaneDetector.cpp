@@ -38,6 +38,7 @@ void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i> &lines,
       continue;
 
     double slope = static_cast<double>(y2 - y1) / (x2 - x1);
+    
 
     if ((slope < -k_low_slope_threshold) && (x1 < left_range))
       left_lines.emplace_back(x1, y1, x2, y2);
@@ -45,8 +46,7 @@ void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i> &lines,
     else if ((slope > k_low_slope_threshold) && (x2 > right_range))
       right_lines.emplace_back(x1, y1, x2, y2);
 
-    else if ((abs(slope) <= k_stop_slpoe_threshold) &&
-             (x1 > threshold_location) && (x2 < threshold_location * 4))
+    else if ((abs(slope) <= k_stop_slpoe_threshold) && (x1 > threshold_location) && (x2 < threshold_location * 4))
       stop_lines.emplace_back(x1, y1, x2, y2);
   }
 }

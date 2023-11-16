@@ -101,11 +101,11 @@ void LaneManager::run() {
 
     publisher_.publish(xycar_controller->control(angle));
 
-    cv::imshow("draw_image", draw_image);
-    videoWriter << draw_image;
-    // cv::imshow("canny_image", canny_image);
 
+    cv::imshow("draw_image", draw_image);
     cv::waitKey(1);
+    // cv::imshow("canny_image", canny_image);
+    videoWriter << draw_image;
   }
 }
 
