@@ -41,11 +41,9 @@ public:
     // TODO: 상수들 constexpr 혹은 configuration으로 지정하기!
     constexpr PREC rho = 1.0;
     constexpr PREC theta = CV_PI / 180.0;
-    constexpr int32_t threshold = 20;
-    constexpr PREC min_line_length = 15;
     constexpr PREC min_line_gap = 5;
-    cv::HoughLinesP(canny_crop, lines, rho, theta, threshold, min_line_length,
-                    min_line_gap);
+
+    cv::HoughLinesP(canny_crop, lines, rho, theta, hough_threshold, hough_min_line_length, min_line_gap);
 
     cv::Mat hough_image = canny_crop.clone();
     cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
@@ -70,6 +68,8 @@ private:
   uint32_t offset;      ///< The offset for position of lane.
   uint32_t lane_width;  ///< The lane width for estimation.
   bool is_right = false;
+  int32_t hough_threshold; ///< The threshole of hough transition.
+  PREC hough_min_line_length; ///< The min line length of hough transition.
 
   State state_; ///< The state of lane.
 
