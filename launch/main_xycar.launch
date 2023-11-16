@@ -1,6 +1,6 @@
 <launch>
-    <!-- run camera node -->
-    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
+	<!-- run camera node -->
+	<node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
 		<param name="video_device" value="/dev/videoCAM"/>
 		<param name="autoexposure" value="false"/>
 		<param name="exposure" value="48"/>
@@ -11,7 +11,7 @@
 		<param name="io_method" value="mmap"/>
 	</node>
 
-    <node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
+	<node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
 
 	<include file="$(find xycar_motor)/launch/xycar_motor.launch"/>
 
@@ -19,6 +19,6 @@
 	<param name="video_path" type="str" value="$(find lane_detection)/output/"/>
 
 
-    <!-- get parameter from config file path-->
-    <!-- make your launch file to use your project. -->
+	<!-- get parameter from config file path-->
+	<!-- make your launch file to use your project. -->
 </launch>

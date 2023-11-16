@@ -6,85 +6,83 @@
 #define LANE_DETECTION__LANEDETECTOR_HPP
 
 // Third party header
-#include <iostream>
 #include "opencv2/opencv.hpp"
+#include <iostream>
 // User defined header
 #include "Common.hpp"
 #include "KalmanFilter.hpp"
 
-namespace XyCar
-{
+namespace XyCar {
 /**
  * @details  Class responsible for detecting lanes in an image.
  */
-class LaneDetector
-{
+class LaneDetector {
 public:
-    using Ptr = LaneDetector *;  ///< Pointer type of class.
-    cv::Mat canny_crop;  ///< The roi image with canny algorithm.
+  using Ptr = LaneDetector *; ///< Pointer type of class.
+  cv::Mat canny_crop;         ///< The roi image with canny algorithm.
 
-    /**
-    * @details Construct a new Lane Detector object
-    * @param[in] config The configuration of lane_detection project.
-    */
-    LaneDetector(const YAML::Node &config) { set_configuration(config); }
+  /**
+   * @details Construct a new Lane Detector object
+   * @param[in] config The configuration of lane_detection project.
+   */
+  LaneDetector(const YAML::Node &config) { set_configuration(config); }
 
-    /**
-    * @details Estimate the lane from the edge image and return the coordinates
-    * of the left & right lanes.
-    * @param[in] canny_crop Canny edge ROI image.
-    * @param[in] is_refining Flag about whether to refine position of lane.
-    * @return State
-    */
-    // State find_state(const cv::Mat& canny_crop, bool is_refining = false)
-    State find_state(const cv::Mat& canny_crop, cv::Mat& draw_image, bool is_refining = false)
-    {
-        std::vector<cv::Vec4i> lines;
-        // TODO: 상수들 constexpr 혹은 configuration으로 지정하기!
-        constexpr PREC rho = 1.0;
-        constexpr PREC theta = CV_PI / 180.0;
-        constexpr int32_t threshold = 30;
-        constexpr PREC min_line_length = 30;
-        constexpr PREC min_line_gap = 5;
-        cv::HoughLinesP(canny_crop, lines, rho, theta, threshold, min_line_length, min_line_gap);
+  /**
+   * @details Estimate the lane from the edge image and return the coordinates
+   * of the left & right lanes.
+   * @param[in] canny_crop Canny edge ROI image.
+   * @param[in] is_refining Flag about whether to refine position of lane.
+   * @return State
+   */
+  // State find_state(const cv::Mat& canny_crop, bool is_refining = false)
+  State find_state(const cv::Mat &canny_crop, cv::Mat &draw_image,
+                   bool is_refining = false) {
+    std::vector<cv::Vec4i> lines;
+    // TODO: 상수들 constexpr 혹은 configuration으로 지정하기!
+    constexpr PREC rho = 1.0;
+    constexpr PREC theta = CV_PI / 180.0;
+    constexpr int32_t threshold = 30;
+    constexpr PREC min_line_length = 30;
+    constexpr PREC min_line_gap = 5;
+    cv::HoughLinesP(canny_crop, lines, rho, theta, threshold, min_line_length,
+                    min_line_gap);
 
+    // cv::Mat hough_image = canny_crop.clone();
+    // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+    // for(cv::Vec4i line : lines) {
+    //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2],
+    //     line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+    // }
 
-        // cv::Mat hough_image = canny_crop.clone();
-        // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
-        // for(cv::Vec4i line : lines) {
-        //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
-        // }
+    // cv::imshow("hough_image", hough_image);
 
-        // cv::imshow("hough_image", hough_image);
+    evaluate(lines, draw_image);
 
-        evaluate(lines, draw_image);
+    if (is_refining)
+      refine_pos();
 
-        if (is_refining)
-        refine_pos();
-
-        return state_;
-    }
+    return state_;
+  }
 
 private:
-    uint32_t frame_width;  ///< The frame width of an original image.
-    uint32_t roi_frame_y;  ///< The y-coordinate for roi setting.
-    uint32_t offset;  ///< The offset for position of lane.
-    uint32_t lane_width;  ///< The lane width for estimation.
-    bool is_right = false;
+  uint32_t frame_width; ///< The frame width of an original image.
+  uint32_t roi_frame_y; ///< The y-coordinate for roi setting.
+  uint32_t offset;      ///< The offset for position of lane.
+  uint32_t lane_width;  ///< The lane width for estimation.
+  bool is_right = false;
 
-    State state_;  ///< The state of lane.
+  State state_; ///< The state of lane.
 
-    KalmanFilter::Ptr left_kalman_, right_kalman_;
+  KalmanFilter::Ptr left_kalman_, right_kalman_;
 
-    /**
-    * @details Set values from configuration.
-    * @param[in] config The configuration of lane_detection project.
-    * @return void
-    */
-    void set_configuration(const YAML::Node &config);
+  /**
+   * @details Set values from configuration.
+   * @param[in] config The configuration of lane_detection project.
+   * @return void
+   */
+  void set_configuration(const YAML::Node &config);
 
-
-    /**
+  /**
    * @details Divide 'lines' into 'left_lines' and 'right_lines' based on slope.
    * @param[in] lines Coordinates consisting of starting and ending points. (x,
    * y)
@@ -96,7 +94,7 @@ private:
    * and ending points (x, y).
    * @return void
    */
-    void divide_left_right_line(const std::vector<cv::Vec4i> &lines,
+  void divide_left_right_line(const std::vector<cv::Vec4i> &lines,
                               std::vector<cv::Vec4i> &left_lines,
                               std::vector<cv::Vec4i> &right_lines,
                               std::vector<cv::Vec4i> &stop_lines);
@@ -107,7 +105,7 @@ private:
    * and ending points (x, y).
    * @return void
    */
-    void find_stop_line(const std::vector<cv::Vec4i> &stoplines);
+  void find_stop_line(const std::vector<cv::Vec4i> &stoplines);
 
   /**
    * @details Calculates the slope and intercept of 'lines',
@@ -117,7 +115,7 @@ private:
    * @param[in] is_left Flag of left lane.
    * @return void
    */
-    void calculate_slope_and_intercept(const std::vector<cv::Vec4i> &lines,
+  void calculate_slope_and_intercept(const std::vector<cv::Vec4i> &lines,
                                      bool is_left = true);
 
   /**
@@ -126,13 +124,13 @@ private:
    * @param[in] is_left Flag of left lane.
    * @return void
    */
-    void calculate_pos(bool is_left = true);
+  void calculate_pos(bool is_left = true);
 
   /**
    * @details Estimate left and right lanes based on exception handling.
    * @return void
    */
-    void refine_pos();
+  void refine_pos();
 
   /**
    * @details Divide lanes into left & right,
@@ -142,40 +140,45 @@ private:
    * @return void
    */
   // void evaluate(const std::vector<cv::Vec4i>& lines)
-    void evaluate(const std::vector<cv::Vec4i> &lines, const cv::Mat &draw_image)
-    {
-        std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
-        divide_left_right_line(lines, left_lines, right_lines, stop_lines);
+  void evaluate(const std::vector<cv::Vec4i> &lines,
+                const cv::Mat &draw_image) {
+    std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
+    divide_left_right_line(lines, left_lines, right_lines, stop_lines);
 
-        for(cv::Vec4i line : left_lines) {
-            cv::line(draw_image, cv::Point(line[0], line[1]+roi_frame_y), cv::Point(line[2], line[3]+roi_frame_y), cv::Scalar(255,0,255), 2, cv::LINE_8);
-        }
-        for(cv::Vec4i line : right_lines) {
-            cv::line(draw_image, cv::Point(line[0], line[1]+roi_frame_y), cv::Point(line[2], line[3]+roi_frame_y), cv::Scalar(255,255,0), 2, cv::LINE_8);
-        }
-
-        calculate_slope_and_intercept(left_lines);
-        calculate_slope_and_intercept(right_lines, is_right);
-
-        cv::Mat_<PREC> kalman_estimation_matrix;
-
-        left_kalman_->kalman_filtering(state_.left_slope_, state_.left_intercept_);
-        kalman_estimation_matrix = left_kalman_->get_state();
-        state_.left_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
-        state_.left_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
-
-        right_kalman_->kalman_filtering(state_.right_slope_, state_.right_intercept_);
-        kalman_estimation_matrix = right_kalman_->get_state();
-        state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
-        state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
-
-        // find_stop_line(stop_lines);
-
-        // calculate lpos, rpos
-        calculate_pos();
-        calculate_pos(is_right);
+    for (cv::Vec4i line : left_lines) {
+      cv::line(draw_image, cv::Point(line[0], line[1] + roi_frame_y),
+               cv::Point(line[2], line[3] + roi_frame_y),
+               cv::Scalar(255, 0, 255), 2, cv::LINE_8);
     }
+    for (cv::Vec4i line : right_lines) {
+      cv::line(draw_image, cv::Point(line[0], line[1] + roi_frame_y),
+               cv::Point(line[2], line[3] + roi_frame_y),
+               cv::Scalar(255, 255, 0), 2, cv::LINE_8);
+    }
+
+    calculate_slope_and_intercept(left_lines);
+    calculate_slope_and_intercept(right_lines, is_right);
+
+    cv::Mat_<PREC> kalman_estimation_matrix;
+
+    left_kalman_->kalman_filtering(state_.left_slope_, state_.left_intercept_);
+    kalman_estimation_matrix = left_kalman_->get_state();
+    state_.left_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
+    state_.left_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
+
+    right_kalman_->kalman_filtering(state_.right_slope_,
+                                    state_.right_intercept_);
+    kalman_estimation_matrix = right_kalman_->get_state();
+    state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
+    state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
+
+    // find_stop_line(stop_lines);
+
+    // calculate lpos, rpos
+    calculate_pos();
+    calculate_pos(is_right);
+  }
 };
-} // XyCar
+} // namespace XyCar
 
 #endif // LANE_DETECTION__LANEDETECTOR_HPP

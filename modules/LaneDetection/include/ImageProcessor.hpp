@@ -8,16 +8,14 @@
 // User defined header
 #include "Common.hpp"
 
-namespace XyCar
-{
+namespace XyCar {
 /**
  * @details Class responsible for pre-processing of the image for lane
  * detection.
  */
-class ImageProcessor
-{
+class ImageProcessor {
 public:
-  using Ptr = ImageProcessor *;  ///< Pointer type of class.
+  using Ptr = ImageProcessor *; ///< Pointer type of class.
 
   /**
    * @details  Construct a new Image Processor object
@@ -37,10 +35,10 @@ public:
   cv::Mat process(const cv::Mat &frame);
 
 private:
-  cv::Mat cropped_frame_;  ///< The cropped image frame for lane detection.
-  uint32_t roi_frame_y;  ///< The y-coordinate for roi setting.
-  uint32_t frame_width;  ///< The frame width of an original image.
-  uint32_t roi_frame_height;  ///< The height of frame for roi setting.
+  cv::Mat cropped_frame_;    ///< The cropped image frame for lane detection.
+  uint32_t roi_frame_y;      ///< The y-coordinate for roi setting.
+  uint32_t frame_width;      ///< The frame width of an original image.
+  uint32_t roi_frame_height; ///< The height of frame for roi setting.
 
   /**
    * @details  Set values from configuration.
@@ -49,6 +47,6 @@ private:
    */
   void set_configuration(const YAML::Node &config);
 };
-} // XyCar
+} // namespace XyCar
 
 #endif // LANE_DETECTION__IMAGEPROCESSOR_HPP

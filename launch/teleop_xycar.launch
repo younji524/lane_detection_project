@@ -1,6 +1,6 @@
 <launch>
 
     <node name="teleop_xycar" pkg="lane_detection" type="teleop_xycar" output="screen"/>
-	<include file="$(find xycar_motor)/launch/xycar_motor.launch"/>
+    <include file="$(find xycar_motor)/launch/xycar_motor.launch"/>
 
 </launch>
