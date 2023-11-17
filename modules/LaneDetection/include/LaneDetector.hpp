@@ -41,20 +41,20 @@ public:
     // TODO: 상수들 constexpr 혹은 configuration으로 지정하기!
     constexpr PREC rho = 1.0;
     constexpr PREC theta = CV_PI / 180.0;
-    constexpr int32_t threshold = 30;
-    constexpr PREC min_line_length = 30;
+    constexpr int32_t threshold = 20;
+    constexpr PREC min_line_length = 15;
     constexpr PREC min_line_gap = 5;
     cv::HoughLinesP(canny_crop, lines, rho, theta, threshold, min_line_length,
                     min_line_gap);
 
-    // cv::Mat hough_image = canny_crop.clone();
-    // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
-    // for(cv::Vec4i line : lines) {
-    //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2],
-    //     line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
-    // }
+    cv::Mat hough_image = canny_crop.clone();
+    cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
 
-    // cv::imshow("hough_image", hough_image);
+    for(cv::Vec4i line : lines) {
+        cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+    }
+
+    cv::imshow("hough_image", hough_image);
 
     evaluate(lines, draw_image);
 
