@@ -39,9 +39,13 @@ xycar_msgs::xycar_motor XycarController::make_motor_message(PREC angle,
                                                             PREC speed) {
   xycar_msgs::xycar_motor motor_message;
   motor_message.header.stamp = ros::Time::now();
-  if (angle > 25.0) angle = 50;
-  else if (angle < -25.0) angle = -50;
-  else if (std::abs(angle) > 13) angle *= 1.1;
+  if (angle > 25.0){
+    angle = 50;
+  } 
+  else if (angle < -25.0){
+    angle = -50;
+  } 
+  // else if (std::abs(angle) > 13) angle *= 1.1;
   motor_message.angle = std::round(angle);
   motor_message.speed = std::round(speed);
 

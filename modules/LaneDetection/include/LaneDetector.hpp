@@ -44,12 +44,12 @@ public:
 
     cv::HoughLinesP(canny_crop, lines, rho, theta, hough_threshold, hough_min_line_length, min_line_gap);
 
-    cv::Mat hough_image = canny_crop.clone();
-    cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
-    for(cv::Vec4i line : lines) {
-        cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
-    }
-    cv::imshow("hough_image", hough_image);
+    // cv::Mat hough_image = canny_crop.clone();
+    // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+    // for(cv::Vec4i line : lines) {
+    //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+    // }
+    // cv::imshow("hough_image", hough_image);
 
     evaluate(lines, draw_image);
 
