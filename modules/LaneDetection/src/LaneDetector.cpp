@@ -11,6 +11,9 @@ void LaneDetector::set_configuration(const YAML::Node &config) {
   offset = config["LANE"]["OFFSET"].as<uint32_t>();
   lane_width = config["LANE"]["LANE_WIDTH"].as<uint32_t>();
 
+  hough_threshold = config["HOUGH"]["THRESHOLD"].as<int32_t>();
+  hough_min_line_length = config["HOUGH"]["MIN_LINE_LENGTH"].as<PREC>();
+
   left_kalman_ = new KalmanFilter(config);
   right_kalman_ = new KalmanFilter(config);
 }
