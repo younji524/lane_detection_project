@@ -99,13 +99,16 @@ void LaneManager::run() {
     // std::cout <<"error: " << error << std::endl;
     // std::cout <<"angle: " << angle << std::endl;
 
+    cv::putText(draw_image, cv::format("%d", error), cv::Point(300, 50), cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(0, 255, 0));
+    cv::putText(draw_image, cv::format("%.1f", angle), cv::Point(300, 80), cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(0, 255, 0));
+ 
     publisher_.publish(xycar_controller->control(angle));
 
     cv::imshow("draw_image", draw_image);
-    videoWriter << draw_image;
-    // cv::imshow("canny_image", canny_image);
-
     cv::waitKey(1);
+    videoWriter << draw_image;
+
+    // cv::imshow("canny_image", canny_image);
   }
 }
 

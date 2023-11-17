@@ -39,13 +39,10 @@ void KalmanFilter::update(PREC slope, PREC intercept) {
   // kalman gain
   static const auto measurement_matrix_t = measurement_matrix_.t();
   kalman_gain_ =
-      covariance_matrix_ * measurement_matrix_t *
-      (measurement_matrix_ * covariance_matrix_ * measurement_matrix_t +
-       measurement_noise_matrix_)
-          .inv();
+      covariance_matrix_ * measurement_matrix_t * (measurement_matrix_ * covariance_matrix_ * measurement_matrix_t + measurement_noise_matrix_).inv();
 
   // if (pos > 0 && pos < 640)
-  if (slope != 0 || intercept != 0) {
+  if (std::round(slope) != 0 || std::round(intercept) != 0) {
     cv::Mat measurement = (cv::Mat_<PREC>(2, 1) << slope, intercept);
     state_matrix_ +=
         kalman_gain_ * (measurement - measurement_matrix_ * state_matrix_);
