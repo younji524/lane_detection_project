@@ -18,11 +18,6 @@ lane_detection_project
 - 카메라 센서로 차선을 인식하여, Xycar가 주어진 코스를 완주할 수 있도록 한다  
 - 블록을 넘어뜨릴 경우, 차선을 이탈할 경우 감점
 
-## 주요 기능
-#### Common.hpp
-- 차선의 상태를 나타내는 구조체, 유지 보수를 위한 PREC data type 선언
-#### 
-
 ## 환경 설정
 ### Requirements
 - OpenCV 4.5.5
@@ -63,6 +58,38 @@ make -j<core_num>
 ```
 ```
 make install
+```
+
+## 주요 기능
+### modules
+#### Common.hpp
+- 차선의 상태를 나타내는 구조체, 유지 보수를 위한 PREC data type 선언
+#### ImageProcessor.hpp, ImageProcessor.cpp
+- 차선 검출을 위한 이미지 전처리 담당 클래스 정의
+#### KalmanFilter.hpp, KalmanFilter.cpp
+- 차선 예측을 위한 칼만 필터 클래스 정의
+#### LaneDetector.hpp, LaneDetector.cpp
+- 차선 검출 담당 클래스 정의
+#### LaneManager.hpp, LaneManager.cpp
+- 차선 검출 시스템을 총괄하는 클래스 정의
+#### PIDController.hpp, PIDController.cpp
+- PID 제어기 클래스 정의
+#### XycarController.hpp, XycarController.cpp
+- Xycar 컨트롤러 클래스 정의
+#### draw.hpp
+- 디버깅을 위한 그리기 함수 정의
+
+### Run system
+- 차선 인식 주행
+```
+roslaunch lane_detection main_xycar.launch
+```
+
+### Test Xycar teleop
+- i: 속도 Up, k: 속도 Down, j,l: 좌우 조향
+- 추후 개선 사항: 현재는 i,j,k,l 키 입력 후 Enter를 입력해야 반영. Enter 입력 없이 주행할 수 있도록 개선 필요.
+```
+roslaunch lane_detection teleop_xycar.launch
 ```
 
 ## Stacks
