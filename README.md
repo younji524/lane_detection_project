@@ -1,5 +1,6 @@
 lane_detection_project
 ====
+[![lane_detection](http://img.youtube.com/vi/faHEmd_3msI/0.jpg)](https://youtu.be/faHEmd_3msI)
 
 차선인식 프로젝트 (programmers devcourse)
 ===
@@ -18,7 +19,9 @@ lane_detection_project
 - 블록을 넘어뜨릴 경우, 차선을 이탈할 경우 감점
 
 ## 주요 기능
-
+#### Common.hpp
+- 차선의 상태를 나타내는 구조체, 유지 보수를 위한 PREC data type 선언
+#### 
 
 ## 환경 설정
 ### Requirements
