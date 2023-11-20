@@ -12,16 +12,17 @@
 // user defined header
 #include "Common.hpp"
 
-namespace XyCar {
-class XycarController {
+namespace XyCar
+{
+class XycarController
+{
 public:
   using Ptr = XycarController *;
   XycarController(const YAML::Node &config) { set_configuration(config); }
 
   /**
    * @details Transmit the speed & angle to xycar motor driver.
-   * @param[in] angle Steering angle of xycar.\n (-20~20[deg] are mapped to
-   * -50~50 values)
+   * @param[in] angle Steering angle of xycar.\n (-20~20[deg] are mapped to -50 ~ 50 values)
    * @return void
    */
   xycar_msgs::xycar_motor control(PREC angle);
@@ -44,16 +45,14 @@ private:
 
   /**
    * @details Decide the speed of xycar based on the 'angle' value.
-   * @param[in] angle Steering angle of xycar.\n (-20~20[deg] are mapped to
-   * -50~50 values)
+   * @param[in] angle Steering angle of xycar. (-20~20[deg] are mapped to -50 ~ 50 values)
    * @return XyCar::PREC
    */
   PREC decide_speed(PREC angle);
 
   /**
    * @details Create a xycar_motor message used to drive xycar.
-   * @param angle Steering angle of xycar.\n (-20~20[deg] are mapped to -50~50
-   * values)
+   * @param angle Steering angle of xycar. (-20 ~ 20[deg] are mapped to -50 ~ 50 values)
    * @param speed Speed of xycar.
    * @return xycar_msgs::xycar_motor
    */

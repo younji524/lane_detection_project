@@ -3,10 +3,12 @@
 
 // Third party header
 #include "opencv2/opencv.hpp"
+
 // User defined header
 #include "Common.hpp"
 
-namespace XyCar {
+namespace XyCar
+{
 /**
  * @details  Draw a line with slope on 'frame'.
  * @param[out]  frame  The frame of an image.
@@ -15,8 +17,8 @@ namespace XyCar {
  * @param[in]  color  The color of lane.
  * @return  void
  */
-void draw_line_slope(cv::Mat &frame, PREC slope, PREC intercept,
-                     const cv::Scalar &color, int32_t k_frame_height) {
+void draw_line_slope(cv::Mat &frame, PREC slope, PREC intercept, const cv::Scalar &color, int32_t k_frame_height)
+{
   if (slope == 0)
     return;
 
@@ -36,8 +38,8 @@ void draw_line_slope(cv::Mat &frame, PREC slope, PREC intercept,
  * @param[in]  color  The color of lane.
  * @return  void
  */
-void draw_line_points(cv::Mat &frame, cv::Point point1, cv::Point point2,
-                      const cv::Scalar &color) {
+void draw_line_points(cv::Mat &frame, cv::Point point1, cv::Point point2, const cv::Scalar &color)
+{
   cv::line(frame, point1, point2, color, 2, cv::LINE_8);
 }
 
@@ -47,12 +49,9 @@ void draw_line_points(cv::Mat &frame, cv::Point point1, cv::Point point2,
  * @param[in]  pos  The x-coordinate position of the rectangle.
  * @return  void
  */
-void draw_rectangle(cv::Mat &frame, int32_t pos, const cv::Scalar &color,
-                    uint32_t k_offset) {
-  cv::rectangle(frame,
-                cv::Rect(cv::Point(pos - 7, k_offset - 7),
-                         cv::Point(pos + 7, k_offset + 7)),
-                color, 2);
+void draw_rectangle(cv::Mat &frame, int32_t pos, const cv::Scalar &color, uint32_t k_offset)
+{
+  cv::rectangle(frame, cv::Rect(cv::Point(pos - 7, k_offset - 7), cv::Point(pos + 7, k_offset + 7)), color, 2);
 }
 } // namespace XyCar
 
