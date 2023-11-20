@@ -11,9 +11,10 @@ lane_detection_project
 </br>
 
 ## 팀 소개
-| 김나혜 | 허동욱 |
-|------|------|
-|[@nahye03](https://github.com/nahye03)|[@dongwookheo](https://github.com/dongwookheo)|
+| 팀원 | 팀원 | 멘토 |
+|:------:|:------:|:---:|
+| 김나혜 | 허동욱 |이치현|
+|[@nahye03](https://github.com/nahye03)|[@dongwookheo](https://github.com/dongwookheo)|[@hyunny223](https://github.com/hyuny223)|
 </br>
 
 ## 프로젝트 소개
