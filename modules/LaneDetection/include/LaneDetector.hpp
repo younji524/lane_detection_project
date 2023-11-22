@@ -7,16 +7,18 @@
 
 // Third party header
 #include "opencv2/opencv.hpp"
-#include <iostream>
+
 // User defined header
 #include "Common.hpp"
 #include "KalmanFilter.hpp"
 
-namespace XyCar {
+namespace XyCar
+{
 /**
  * @details  Class responsible for detecting lanes in an image.
  */
-class LaneDetector {
+class LaneDetector
+{
 public:
   using Ptr = LaneDetector *; ///< Pointer type of class.
   cv::Mat canny_crop;         ///< The roi image with canny algorithm.
@@ -28,33 +30,26 @@ public:
   LaneDetector(const YAML::Node &config) { set_configuration(config); }
 
   /**
-   * @details Estimate the lane from the edge image and return the coordinates
-   * of the left & right lanes.
+   * @details Estimate the lane from the edge image and return the coordinates of the left & right lanes.
    * @param[in] canny_crop Canny edge ROI image.
    * @param[in] is_refining Flag about whether to refine position of lane.
    * @return State
    */
   // State find_state(const cv::Mat& canny_crop, bool is_refining = false)
-  State find_state(const cv::Mat &canny_crop, cv::Mat &draw_image,
-                   bool is_refining = false) {
+  State find_state(const cv::Mat &canny_crop, cv::Mat &draw_image, bool is_refining = false) {
     std::vector<cv::Vec4i> lines;
-    // TODO: 상수들 constexpr 혹은 configuration으로 지정하기!
     constexpr PREC rho = 1.0;
     constexpr PREC theta = CV_PI / 180.0;
-    constexpr int32_t threshold = 20;
-    constexpr PREC min_line_length = 15;
     constexpr PREC min_line_gap = 5;
-    cv::HoughLinesP(canny_crop, lines, rho, theta, threshold, min_line_length,
-                    min_line_gap);
 
-    cv::Mat hough_image = canny_crop.clone();
-    cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+    cv::HoughLinesP(canny_crop, lines, rho, theta, hough_threshold_, hough_min_line_length_, min_line_gap);
 
-    for(cv::Vec4i line : lines) {
-        cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
-    }
-
-    cv::imshow("hough_image", hough_image);
+    // cv::Mat hough_image = canny_crop.clone();
+    // cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
+    // for(cv::Vec4i line : lines) {
+    //     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
+    // }
+    // cv::imshow("hough_image", hough_image);
 
     evaluate(lines, draw_image);
 
@@ -65,11 +60,13 @@ public:
   }
 
 private:
-  uint32_t frame_width; ///< The frame width of an original image.
+  uint32_t frame_width_; ///< The frame width of an original image.
   uint32_t roi_frame_y; ///< The y-coordinate for roi setting.
-  uint32_t offset;      ///< The offset for position of lane.
-  uint32_t lane_width;  ///< The lane width for estimation.
-  bool is_right = false;
+  uint32_t offset_;      ///< The offset for position of lane.
+  uint32_t lane_width_;  ///< The lane width for estimation.
+  bool is_right_ = false;
+  int32_t hough_threshold_; ///< The threshole of hough transition.
+  PREC hough_min_line_length_; ///< The min line length of hough transition.
 
   State state_; ///< The state of lane.
 
@@ -84,43 +81,32 @@ private:
 
   /**
    * @details Divide 'lines' into 'left_lines' and 'right_lines' based on slope.
-   * @param[in] lines Coordinates consisting of starting and ending points. (x,
-   * y)
-   * @param[out] left_lines Coordinates of left lines consisting of starting and
-   * ending points (x, y).
-   * @param[out] right_lines Coordinates of right lines consisting of starting
-   * and ending points (x, y).
-   * @param[out] stop_lines  Coordinates of stop lines consisting of starting
-   * and ending points (x, y).
+   * @param[in] lines Coordinates consisting of starting and ending points. (x, y)
+   * @param[out] left_lines Coordinates of left lines consisting of starting and ending points (x, y).
+   * @param[out] right_lines Coordinates of right lines consisting of starting and ending points (x, y).
+   * @param[out] stop_lines  Coordinates of stop lines consisting of starting and ending points (x, y).
    * @return void
    */
-  void divide_left_right_line(const std::vector<cv::Vec4i> &lines,
-                              std::vector<cv::Vec4i> &left_lines,
-                              std::vector<cv::Vec4i> &right_lines,
-                              std::vector<cv::Vec4i> &stop_lines);
+  void divide_left_right_line(const std::vector<cv::Vec4i> &lines, std::vector<cv::Vec4i> &left_lines,
+                              std::vector<cv::Vec4i> &right_lines, std::vector<cv::Vec4i> &stop_lines);
 
   /**
    * @details Find the stop line.
-   * @param[in] stop_lines Coordinates of stop lines consisting of starting
-   * and ending points (x, y).
+   * @param[in] stop_lines Coordinates of stop lines consisting of starting and ending points (x, y).
    * @return void
    */
   void find_stop_line(const std::vector<cv::Vec4i> &stoplines);
 
   /**
-   * @details Calculates the slope and intercept of 'lines',
-   * and returns an estimated lane calculated by weighted average.
-   * @param[in] lines Coordinates consisting of starting and ending points (x,
-   * y).
+   * @details Calculates the slope and intercept of 'lines', and returns an estimated lane calculated by weighted average.
+   * @param[in] lines Coordinates consisting of starting and ending points (x, y).
    * @param[in] is_left Flag of left lane.
    * @return void
    */
-  void calculate_slope_and_intercept(const std::vector<cv::Vec4i> &lines,
-                                     bool is_left = true);
+  void calculate_slope_and_intercept(const std::vector<cv::Vec4i> &lines, bool is_left = true);
 
   /**
-   * @details Do exception handling to lane position('pos'),
-   * using the 'slope' and 'intercept' of lanes.
+   * @details Do exception handling to lane position('pos'), using the 'slope' and 'intercept' of lanes.
    * @param[in] is_left Flag of left lane.
    * @return void
    */
@@ -133,15 +119,13 @@ private:
   void refine_pos();
 
   /**
-   * @details Divide lanes into left & right,
-   * and estimate by applying filter (or our algorithm).
-   * @param[in] lines Coordinates consisting of starting and ending points (x,
-   * y).
+   * @details Divide lanes into left & right, and estimate by applying filter (or our algorithm).
+   * @param[in] lines Coordinates consisting of starting and ending points (x, y).
    * @return void
    */
   // void evaluate(const std::vector<cv::Vec4i>& lines)
-  void evaluate(const std::vector<cv::Vec4i> &lines,
-                const cv::Mat &draw_image) {
+  void evaluate(const std::vector<cv::Vec4i> &lines, const cv::Mat &draw_image)
+  {
     std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
     divide_left_right_line(lines, left_lines, right_lines, stop_lines);
 
@@ -157,7 +141,7 @@ private:
     }
 
     calculate_slope_and_intercept(left_lines);
-    calculate_slope_and_intercept(right_lines, is_right);
+    calculate_slope_and_intercept(right_lines, is_right_);
 
     cv::Mat_<PREC> kalman_estimation_matrix;
 
@@ -166,8 +150,7 @@ private:
     state_.left_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
     state_.left_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
 
-    right_kalman_->kalman_filtering(state_.right_slope_,
-                                    state_.right_intercept_);
+    right_kalman_->kalman_filtering(state_.right_slope_, state_.right_intercept_);
     kalman_estimation_matrix = right_kalman_->get_state();
     state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
     state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
@@ -176,7 +159,7 @@ private:
 
     // calculate lpos, rpos
     calculate_pos();
-    calculate_pos(is_right);
+    calculate_pos(is_right_);
   }
 };
 } // namespace XyCar
