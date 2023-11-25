@@ -1,13 +1,12 @@
 // system header
 #include <cstdint>
-
 // user defined header
 #include "Common.hpp"
 #include "LaneManager.hpp"
 
-int32_t main(int32_t argc, char **argv) {
+int32_t main(int32_t argc, char **argv)
+{
   ros::init(argc, argv, "main_xycar");
-  // XyCar::LaneManager laneManager(p_gain, i_gain, d_gain);
   XyCar::LaneManager laneManager;
   laneManager.run();
 
