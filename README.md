@@ -26,6 +26,8 @@ lane_detection_project
 ## 환경 설정
 ### Requirements
 - OpenCV 4.5.5
+- ROS melodic
+- Ubuntu 18.04 LTS
 ### Installation
 ```
 git clone https://github.com/dongwookheo/lane_detection_project.git
