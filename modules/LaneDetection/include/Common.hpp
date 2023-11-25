@@ -3,7 +3,6 @@
 
 // System header
 #include <cstdint>
-
 // Third party header
 #include <yaml-cpp/yaml.h>
 
