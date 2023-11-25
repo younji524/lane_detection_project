@@ -1,8 +1,15 @@
+// third party header
 #include "opencv2/opencv.hpp"
 #include "ros/ros.h"
 #include "sensor_msgs/Image.h"
 
-void image_callback(const sensor_msgs::Image &message) {
+/**
+ * @details Test image callback to receive image messages and convert them to cv::Mat
+ * @param[in] message Image message accepted by xycar image sensor
+ * @return void
+ */
+void image_callback(const sensor_msgs::Image &message)
+{
   cv::Mat image =
       cv::Mat(message.height, message.width, CV_8UC3,
               const_cast<uint8_t *>(&message.data[0]), message.step);
@@ -11,7 +18,8 @@ void image_callback(const sensor_msgs::Image &message) {
   cv::waitKey(1);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
   ros::init(argc, argv, "test");
   ros::NodeHandle nh;
 
