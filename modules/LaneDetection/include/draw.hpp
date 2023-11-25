@@ -3,19 +3,18 @@
 
 // Third party header
 #include "opencv2/opencv.hpp"
-
 // User defined header
 #include "Common.hpp"
 
 namespace XyCar
 {
 /**
- * @details  Draw a line with slope on 'frame'.
- * @param[out]  frame  The frame of an image.
- * @param[in]  slope  The slope of a lane.
- * @param[in]  intercept  The intercept of a lane.
- * @param[in]  color  The color of lane.
- * @return  void
+ * @details Draw a line with slope on 'frame'.
+ * @param[out] frame The frame of an image.
+ * @param[in] slope The slope of a lane.
+ * @param[in] intercept The intercept of a lane.
+ * @param[in] color The color of lane.
+ * @return void
  */
 void draw_line_slope(cv::Mat &frame, PREC slope, PREC intercept, const cv::Scalar &color, int32_t k_frame_height)
 {
@@ -31,12 +30,12 @@ void draw_line_slope(cv::Mat &frame, PREC slope, PREC intercept, const cv::Scala
 }
 
 /**
- * @details  Draw a line using Coordination on 'frame'.
- * @param[out]  frame  The frame of an image.
- * @param[in]  point1  The first point defining the line.
- * @param[in]  point2  The second point defining the line.
- * @param[in]  color  The color of lane.
- * @return  void
+ * @details Draw a line using Coordination on 'frame'.
+ * @param[out] frame The frame of an image.
+ * @param[in] point1 The first point defining the line.
+ * @param[in] point2 The second point defining the line.
+ * @param[in] color The color of lane.
+ * @return void
  */
 void draw_line_points(cv::Mat &frame, cv::Point point1, cv::Point point2, const cv::Scalar &color)
 {
@@ -44,10 +43,10 @@ void draw_line_points(cv::Mat &frame, cv::Point point1, cv::Point point2, const 
 }
 
 /**
- * @details  Draw a rectangle on frame.
- * @param[out]  frame  The frame of an image.
- * @param[in]  pos  The x-coordinate position of the rectangle.
- * @return  void
+ * @details Draw a rectangle on frame.
+ * @param[out] frame The frame of an image.
+ * @param[in] pos The x-coordinate position of the rectangle.
+ * @return void
  */
 void draw_rectangle(cv::Mat &frame, int32_t pos, const cv::Scalar &color, uint32_t k_offset)
 {
