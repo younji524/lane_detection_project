@@ -1,3 +1,11 @@
+/**
+ * @file ImageProcessor.hpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Defines the ImageProcessor class for image pre-processing in the XyCar namespace.
+ * @version 1.0.0
+ * @date 2023-11-09
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
 #ifndef LANE_DETECTION__IMAGEPROCESSOR_HPP
 #define LANE_DETECTION__IMAGEPROCESSOR_HPP
 
@@ -9,7 +17,8 @@
 namespace XyCar
 {
 /**
- * @details Class responsible for pre-processing of the image for lane detection.
+ * @brief ImageProcessor class for pre-processing of the image.
+ * @details This class is used to process pre-processing of the image for lane detection.
  */
 class ImageProcessor
 {
@@ -17,19 +26,21 @@ public:
   using Ptr = ImageProcessor *; ///< Pointer type of class.
 
   /**
-   * @details Construct a new Image Processor object
+   * @brief Construct a new ImageProcessor object.
+   * @details This function constructs a new ImageProcessor object.
    * @param[in] config The configuration of lane_detection project.
    */
   ImageProcessor(const YAML::Node &config) { set_configuration(config); }
 
   /**
-   * @details Perform the image preprocessing tasks below.
+   * @brief Perform the image preprocessing tasks.
+   * @details This function performs the image preprocessing tasks below.
    * 1. Crop the image for ROI settings.
    * 2. Convert to grayscale.
    * 3. Perform a Gaussian Blur.
    * 4. Apply a Canny Algorithm.
    * @param[in] frame The original video frame.
-   * @return cv::Mat
+   * @return cv::Mat Pre-processed image.
    */
   cv::Mat process(const cv::Mat &frame);
 
@@ -40,7 +51,8 @@ private:
   uint32_t roi_frame_height_; ///< The height of frame for roi setting.
 
   /**
-   * @details Set values from configuration.
+   * @brief Set values from configuration.
+   * @details This function sets values from configuration.
    * @param[in] config The configuration of lane_detection project.
    * @return void
    */
