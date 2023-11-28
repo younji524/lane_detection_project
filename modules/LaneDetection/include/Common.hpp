@@ -3,7 +3,7 @@
  * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
  * @brief Provides the definition of the lane state structure and precision type alias in the XyCar namespace.
  * @version 1.0.0
- * @date 2023-11-12
+ * @date 2023-11-09
  * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
  */
 #ifndef LANE_DETECTION__COMMON_HPP
