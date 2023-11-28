@@ -1,3 +1,11 @@
+/**
+ * @file KalmanFilter.hpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Defines the KalmanFilter class for state estimation in the XyCar namespace.
+ * @version 1.0.0
+ * @date 2023-11-10
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
 #ifndef LANE_DETECTION__KALMANFILTER_HPP
 #define LANE_DETECTION__KALMANFILTER_HPP
 
@@ -9,7 +17,8 @@
 namespace XyCar
 {
 /**
- * @details  Class of the Kalman filter.
+ * @brief KalmanFilter class.
+ * @details This class is used to apply Kalman filter for state estimation.
  */
 class KalmanFilter
 {
@@ -17,27 +26,40 @@ public:
   using Ptr = KalmanFilter *;  ///< Pointer type of class.
 
   /**
-   * @details Construct a new Kalman Filter object
+   * @brief Construct a new KalmanFilter object.
+   * @details This function constructs a new KalmanFilter object.
    * @param[in] config The configuration of lane_detection project.
    */
   KalmanFilter(const YAML::Node &config);
 
+  /**
+   * @brief Perform Kalman filtering.
+   * @details This function perform Kalman filtering.
+   * Using the is_first_ flag, the initial state receives detected data.
+   * @param slope The slope of lane.
+   * @param intercept The intercept of lane.
+   * @return void
+   */
   void kalman_filtering(PREC slope, PREC intercept);
 
   /**
-   * @details Get the state matrix.
-   *          When you want to receive the slope and intercept, you receive it using the cv::Mat::at() method.
-   *          ex) slope = state_mat.at<PREC>(0, 0);
-   *          ex) intercept = state_mat.at<PREC>(2, 0);
-   * @return const Mat&
+   * @brief Get the state matrix.
+   * @details This function gets the state matrix.
+   * When you want to receive the slope and intercept, you receive it using the cv::Mat::at() method.
+   * @code{.cpp}
+   * state_mat = kalman.get_state();
+   * slope = state_mat.at<PREC>(0, 0);
+   * intercept = state_mat.at<PREC>(2, 0);
+   * @endcode
+   * @return const Mat_<PREC>& (Here, PREC refers to double) The filtered state.
    */
   const cv::Mat_<PREC> &get_state() const;
 
 private:
   PREC slope_derivative_;     ///< The differential term of slope of lane.
   PREC intercept_derivative_; ///< The differential term of intercept of lane.
-  PREC dt_;
-  bool is_first_ = true;
+  PREC dt_;                   ///< The time difference between measurements.
+  bool is_first_ = true;      ///< The flag that indicates if it's first measurement.
 
   cv::Mat_<PREC> state_matrix_;             ///< x: The State estimates (상태 추정치)
   cv::Mat_<PREC> transition_matrix_;        ///< A: The State Transition Matrix (상태 변환 행렬)
@@ -50,9 +72,10 @@ private:
   cv::Mat_<PREC> kalman_gain_;              ///< K: The Kalman gain (칼만 이득)
 
   /**
-   * @details Perform the prediction steps of the Kalman filter.
-   *          Predicts the state vector using a given 'slope' and 'intercept'.
-   *          Then, calculate the predicted covariance using the transition matrix and the covariance matrix.
+   * @brief Performs the prediction steps of the Kalman filter.
+   * @details This fuction performs the prediction steps of the Kalman filter.
+   * Predicts the state vector using a given 'slope' and 'intercept'.
+   * Then, calculate the predicted covariance using the transition matrix and the covariance matrix.
    * @param[in] slope The slope of lane.
    * @param[in] intercept The intercept of lane.
    * @return void
@@ -60,15 +83,16 @@ private:
   void predict(PREC slope, PREC intercept);
 
   /**
-   * @details Update the internal state of a Kalman filter given the 'average slope', 'average intercept' and 'position of lane'.
-              The Kalman gain is computed, and the state matrix and covariance matrix are updated accordingly.
-              If the slope is not equal to 0, or the intercept is not equal to 0,
-              the state matrix is updated with a measurement derived from the average slope and intercept.
-   * @param[in] avg_slope The average slope of the lane.
-   * @param[in] avg_intercept The intercept slope of the lane.
+   * @brief Update the state of a Kalman filter.
+   * @details This function updates the internal state of a Kalman filter given the 'slope', 'intercept'.
+   * The Kalman gain is computed, and the state matrix and covariance matrix are updated accordingly.
+   * If the slope is not equal to 0, or the intercept is not equal to 0,
+   * the state matrix is updated with a measurement derived from the slope and intercept.
+   * @param[in] slope The slope of the lane.
+   * @param[in] intercept The intercept of the lane.
    * @return void
    */
-  void update(PREC avg_slope, PREC avg_intercept);
+  void update(PREC slope, PREC intercept);
 };
 } // namespace XyCar
 
