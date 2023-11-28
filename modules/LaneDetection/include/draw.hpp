@@ -1,3 +1,11 @@
+/**
+ * @file draw.hpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Provides functions for drawing lines and rectangles on image frames in the XyCar namespace.
+ * @version 1.0.0
+ * @date 2023-11-10
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
 #ifndef LANE_DETECTION__DRAW_HPP
 #define LANE_DETECTION__DRAW_HPP
 
@@ -9,7 +17,8 @@
 namespace XyCar
 {
 /**
- * @details Draw a line with slope on 'frame'.
+ * @brief Draw a line with slope on 'frame'.
+ * @details This function draws a line with slope on 'frame'.
  * @param[out] frame The frame of an image.
  * @param[in] slope The slope of a lane.
  * @param[in] intercept The intercept of a lane.
@@ -30,7 +39,8 @@ void draw_line_slope(cv::Mat &frame, PREC slope, PREC intercept, const cv::Scala
 }
 
 /**
- * @details Draw a line using Coordination on 'frame'.
+ * @brief Draw a line using coordinates(point1, point2) on 'frame'.
+ * @details This function draws a line using coordinates(point1, point2) on 'frame'.
  * @param[out] frame The frame of an image.
  * @param[in] point1 The first point defining the line.
  * @param[in] point2 The second point defining the line.
@@ -43,9 +53,10 @@ void draw_line_points(cv::Mat &frame, cv::Point point1, cv::Point point2, const 
 }
 
 /**
- * @details Draw a rectangle on frame.
+ * @brief Draw a rectangle on 'frame'.
+ * @details This function draws a rectangle using coordinates(pos) on 'frame'.
  * @param[out] frame The frame of an image.
- * @param[in] pos The x-coordinate position of the rectangle.
+ * @param[in] pos The x-coordinate of the rectangle.
  * @return void
  */
 void draw_rectangle(cv::Mat &frame, int32_t pos, const cv::Scalar &color, uint32_t k_offset)
