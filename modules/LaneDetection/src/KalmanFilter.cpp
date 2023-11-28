@@ -31,9 +31,9 @@ void KalmanFilter::kalman_filtering(PREC slope, PREC intercept)
   update(slope, intercept);
 }
 
-void KalmanFilter::predict(PREC estimation_slope, PREC estimation_intercept)
+void KalmanFilter::predict(PREC slope, PREC intercept)
 {
-  state_matrix_ = transition_matrix_ * (cv::Mat_<PREC>(4, 1) << estimation_slope, slope_derivative_, estimation_intercept, intercept_derivative_);
+  state_matrix_ = transition_matrix_ * (cv::Mat_<PREC>(4, 1) << slope, slope_derivative_, intercept, intercept_derivative_);
   covariance_matrix_ = transition_matrix_ * covariance_matrix_ * transition_matrix_t_ + process_noise_matrix_;
 }
 
