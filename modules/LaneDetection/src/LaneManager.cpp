@@ -1,3 +1,11 @@
+/**
+ * @file LaneManager.cpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Defines the LaneDetector class for lane detection and estimation in the XyCar namespace.
+ * @version 1.0.0
+ * @date 2023-11-09
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
 #include "LaneManager.hpp"
 
 namespace XyCar
@@ -46,15 +54,16 @@ void LaneManager::run()
                    cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), k_frame_rate_,
                    cv::Size(frame_width_, frame_height_));
 
-  if (!videoWriter.isOpened()) {
+  if (!videoWriter.isOpened())
+  {
     std::cout << "Can write video !!! check setting" << std::endl;
     return;
   }
 
   ros::Rate rate(k_frame_rate_);
-  while (ros::ok()) {
+  while (ros::ok())
+  {
     ros::spinOnce();
-    // std::cout << image_.size() << std::endl;
 
     if (image_.empty())
       continue;
@@ -71,10 +80,12 @@ void LaneManager::run()
     draw_line_slope(draw_image, lane_state.right_slope_,
                     lane_state.right_intercept_, cv::Scalar(255, 0, 0),
                     frame_height_);
+#if DEBUG
+    std::cout << "lpos: " << lane_state.left_pos_ << std::endl;
+    std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
+    std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
+#endif
 
-    // std::cout << "lpos: " << lane_state.left_pos_ << std::endl;
-    // std::cout << "rpos: " << lane_state.right_pos_ << std::endl;
-    // std::cout << "stop: " << lane_state.stop_flag_ << std::endl;
     cv::putText(draw_image, cv::format("%.1f", lane_state.left_pos_),
                 cv::Point(lane_state.left_pos_, offset_), cv::FONT_HERSHEY_PLAIN,
                 2, cv::Scalar(255, 0, 0));
@@ -93,8 +104,11 @@ void LaneManager::run()
     draw_rectangle(draw_image, frame_centor, cv::Scalar(0, 0, 255), offset_);
 
     PREC angle = pid_controller_->compute_angle(error);
-    // std::cout <<"error: " << error << std::endl;
-    // std::cout <<"angle: " << angle << std::endl;
+
+#if DEBUG
+    std::cout <<"error: " << error << std::endl;
+    std::cout <<"angle: " << angle << std::endl;
+#endif
 
     cv::putText(draw_image, cv::format("%d", error), cv::Point(300, 50), cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(0, 255, 0));
     cv::putText(draw_image, cv::format("%.1f", angle), cv::Point(300, 80), cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(0, 255, 0));
