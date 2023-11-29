@@ -1,14 +1,20 @@
+/**
+ * @file LaneManager.hpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief
+ * @version 1.0.0
+ * @date 2023-11-09
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
 #ifndef LANE_DETECTION__LANEMANAGER_HPP
 #define LANE_DETECTION__LANEMANAGER_HPP
 
-// system header
+// System header
 #include <iostream>
 #include <string>
-
-// third party header
+// Third party header
 #include "sensor_msgs/Image.h"
-
-// user defined header
+// User defined header
 #include "Common.hpp"
 #include "draw.hpp"
 #include "ImageProcessor.hpp"
@@ -16,22 +22,24 @@
 #include "PIDController.hpp"
 #include "XycarController.hpp"
 
-
 namespace XyCar
 {
 /**
- * @details Class that manage lane detection system.
+ * @brief LaneManager Class that manage lane detection system.
+ * @details This class is used to manage lane detection system.
  */
 class LaneManager
 {
 public:
   /**
-   * @details Construct a new Lane Manager object
+   * @brief Construct a new LaneManager object.
+   * @details This function construct a new LaneManager object.
    */
   LaneManager();
 
   /**
-   * @details Run from image processing to publishing motor control topics.
+   * @brief Run from image processing to publishing motor control topics.
+   * @details This function run from image processing to publishing motor control topics.
    * @return void
    */
   void run();
@@ -49,20 +57,23 @@ private:
   // TODO: 큐 사용해보기
   // std::queue <cv::Mat> current_images_;
   cv::Mat image_; ///< An original image from usb cam.
-  static constexpr double k_frame_rate_ = 33.0; ///< Frame rate
+  static constexpr double k_frame_rate_ = 33.0; ///< Frame rate.
   uint32_t frame_width_;  ///< The frame width of original image.
   uint32_t frame_height_; ///< The frame height for draw.
   uint32_t offset_;       ///< The offset for draw.
-  std::string video_name_;
+  std::string video_name_;  ///< The output video name.
 
   /**
-   * @details  Set configuration.
-   * @param[in]  config  The configuration of lane_detection project.
+   * @brief Set configuration.
+   * @details This function sets configuration.
+   * @param[in] config The configuration of lane_detection project.
+   * @return void
    */
   void set_parameters(const YAML::Node &config);
 
   /**
-   * @details Convert sensor_msgs::Image to cv::Mat and change to grayscale.
+   * @brief Convert sensor_msgs::Image to cv::Mat and change to grayscale.
+   * @details This function converts sensor_msgs::Image to cv::Mat and change to grayscale.
    * @param[in] message Image topic message.
    * @return void
    */
