@@ -1,17 +1,22 @@
-// system header
+/**
+ * @file teleop_xycar.hpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Defines the functions for controlling the XyCar based on key input.
+ * @version 1.0.0
+ * @date 2023-11-09
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
+// System header
 #include <atomic>
 #include <cstdint>
 #include <iostream>
 #include <thread>
-// third party header
+// Third party header
 #include "ros/ros.h"
-// user defined header
+// User defined header
 #include "xycar_msgs/xycar_motor.h"
 
-/**
- * @brief Namespace for global variables
- */
-namespace
+namespace // Global variables
 {
   int32_t speed = 0;
   int32_t angle = 0;
@@ -19,14 +24,15 @@ namespace
 }
 
 /**
- * @details Control the xycar according to key input.
- * Press 'i' to increase the forward speed.
- * Press 'k' to decrease the forward speed.
- * Press 'j' to turn the steering to the left.
- * Press 'l' to turn the steering to the right.
+ * @brief Control the Xycar according to key input.
+ * @details This function controls the Xycar according to key input.
+ * If press 'i' to increase the forward speed.
+ * If press 'k' to decrease the forward speed.
+ * If press 'j' to turn the steering to the left.
+ * If press 'l' to turn the steering to the right.
  * @return void
  */
-void inputThread();
+void input_thread();
 
 int32_t main(int32_t argc, char **argv)
 {
@@ -34,7 +40,7 @@ int32_t main(int32_t argc, char **argv)
   ros::NodeHandle node_handler;
   ros::Publisher publisher = node_handler.advertise<xycar_msgs::xycar_motor>("xycar_motor", 1);
 
-  std::thread input_thread(inputThread);
+  std::thread control_thread(input_thread);
 
   while (ros::ok() && is_running)
   {
@@ -46,12 +52,12 @@ int32_t main(int32_t argc, char **argv)
     ros::spinOnce();
   }
 
-  input_thread.join();
+  control_thread.join();
 
   return 0;
 }
 
-void inputThread()
+void input_thread()
 {
   char key;
   while (is_running)
