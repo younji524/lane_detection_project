@@ -1,11 +1,12 @@
-// third party header
+// Third party header
 #include "opencv2/opencv.hpp"
 #include "ros/ros.h"
 #include "sensor_msgs/Image.h"
 
 /**
- * @details Test image callback to receive image messages and convert them to cv::Mat
- * @param[in] message Image message accepted by xycar image sensor
+ * @brief Test image callback to receive image messages and convert them to cv::Mat
+ * @details This function tests image callback to receive image messages and convert them to cv::Mat
+ * @param[in] message Image message accepted by Xycar image sensor
  * @return void
  */
 void image_callback(const sensor_msgs::Image &message)
