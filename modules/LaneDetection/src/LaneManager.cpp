@@ -1,7 +1,7 @@
 /**
  * @file LaneManager.cpp
  * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
- * @brief Defines the LaneDetector class for lane detection and estimation in the XyCar namespace.
+ * @brief Defines the LaneManager class for managing the lane detection system in the XyCar namespace.
  * @version 1.0.0
  * @date 2023-11-09
  * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
