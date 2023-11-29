@@ -1,5 +1,5 @@
 /**
- * @file ImageProcessor.hpp
+ * @file ImageProcessor.cpp
  * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
  * @brief Defines the ImageProcessor class for image pre-processing in the XyCar namespace.
  * @version 1.0.0
