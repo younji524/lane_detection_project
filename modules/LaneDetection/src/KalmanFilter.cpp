@@ -1,3 +1,11 @@
+/**
+ * @file KalmanFilter.hpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Defines the KalmanFilter class for state estimation in the XyCar namespace.
+ * @version 1.0.0
+ * @date 2023-11-10
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
 // User defined header
 #include "KalmanFilter.hpp"
 
