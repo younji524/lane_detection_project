@@ -1,3 +1,12 @@
+/**
+ * @file PIDController.cpp
+ * @author Nahye Kim (nahelove03@gmail.com) Dongwook Heo (hdwook3918@gmail.com)
+ * @brief Defines the PIDController class for applying pid control to the system in the XyCar namespace.
+ * @version 1.0.0
+ * @date 2023-11-09
+ * @copyright Copyright (c) 2023 I_On_Car, All Rights Reserved.
+ */
+// User defined header
 #include "PIDController.hpp"
 
 namespace XyCar
