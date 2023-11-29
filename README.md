@@ -33,16 +33,7 @@ lane_detection_project
 git clone https://github.com/dongwookheo/lane_detection_project.git
 ```
 ```
-cd lane_detection_project/
-```
-```
-mkdir thirdparty && cd thirdparty
-```
-```
-mkdir OpenCV && cd OpenCV
-```
-```
-mkdir build install
+cd lane_detection_project/thirdparty/OpenCV
 ```
 ```
 git clone https://github.com/opencv/opencv.git
