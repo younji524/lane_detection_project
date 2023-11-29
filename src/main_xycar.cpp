@@ -1,6 +1,6 @@
-// system header
+// System header
 #include <cstdint>
-// user defined header
+// User defined header
 #include "Common.hpp"
 #include "LaneManager.hpp"
 
