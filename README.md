@@ -6,7 +6,7 @@ lane_detection_project
 차선인식 프로젝트
 ===
 > **프로그래머스 K-Digital Training 자율주행 데브코스**  
-> Xycar를 활용한 차선인식 프로젝트 (Lane keeping project using Xycar)  
+> 1:10 스케일 모형 차(Xycar)를 활용한 차선인식 프로젝트 (Lane keeping project using 1:10 scale model car(Xycar))  
 > 개발기간 (Development period): 2023.10.28 ~ 2023.11.17
 </br>
 
