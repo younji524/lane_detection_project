@@ -33,7 +33,7 @@ void LaneDetector::set_configuration(const YAML::Node &config)
 void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i> &lines, std::vector<cv::Vec4i> &left_lines,
                                           std::vector<cv::Vec4i> &right_lines, std::vector<cv::Vec4i> &stop_lines)
 {
-  constexpr double k_low_slope_threshold = 0.1;
+  constexpr double k_low_slope_threshold = 0.15;
   constexpr double k_stop_slope_threshold = 0.15;
 
   // int32_t half_frame = frame_width / 2;
@@ -68,9 +68,15 @@ void LaneDetector::divide_left_right_line(const std::vector<cv::Vec4i> &lines, s
 void LaneDetector::find_stop_line(const std::vector<cv::Vec4i> &stoplines)
 {
   if (stoplines.size() >= 2)
+  {
     state_.stop_flag_ = true;
+    //std::cout << "Stop!" << std::endl;
+  }
   else
+  {
     state_.stop_flag_ = false;
+    //std::cout << "Go!" << std::endl;
+  }
 }
 
 void LaneDetector::calculate_slope_and_intercept(const std::vector<cv::Vec4i> &lines, bool is_left)
@@ -218,6 +224,12 @@ void LaneDetector::evaluate(const std::vector<cv::Vec4i> &lines, const cv::Mat &
            cv::Point(line[2], line[3] + roi_frame_y_),
            cv::Scalar(255, 255, 0), 2, cv::LINE_8);
   }
+  for (cv::Vec4i line : stop_lines)
+  {
+    cv::line(draw_image, cv::Point(line[0], line[1] + roi_frame_y_),
+           cv::Point(line[2], line[3] + roi_frame_y_),
+           cv::Scalar(255, 255, 0), 2, cv::LINE_8);
+  }
 
   calculate_slope_and_intercept(left_lines);
   calculate_slope_and_intercept(right_lines, is_right_);
@@ -234,7 +246,7 @@ void LaneDetector::evaluate(const std::vector<cv::Vec4i> &lines, const cv::Mat &
   state_.right_slope_ = kalman_estimation_matrix.at<PREC>(0, 0);
   state_.right_intercept_ = kalman_estimation_matrix.at<PREC>(2, 0);
 
-  // find_stop_line(stop_lines);
+  find_stop_line(stop_lines);
 
   // calculate lpos, rpos
   calculate_pos();
@@ -250,7 +262,7 @@ State LaneDetector::find_state(const cv::Mat &canny_crop, cv::Mat &draw_image, b
 
   cv::HoughLinesP(canny_crop, lines, rho, theta, hough_threshold_, hough_min_line_length_, min_line_gap);
 
-#if DEBUG
+// #if DEBUG
   cv::Mat hough_image = canny_crop.clone();
   cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
   for(cv::Vec4i line : lines)
@@ -258,7 +270,7 @@ State LaneDetector::find_state(const cv::Mat &canny_crop, cv::Mat &draw_image, b
     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
   }
   cv::imshow("hough_image", hough_image);
-#endif
+// #endif
 
   evaluate(lines, draw_image);
 

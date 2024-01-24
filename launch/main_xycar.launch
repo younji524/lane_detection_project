@@ -12,6 +12,8 @@
 	</node>
 
 	<node name="main_xycar" pkg="lane_detection" type="main_xycar" output="screen"/>
+	<node name="trt_detection" pkg="yolov3_trt_ros" type="trt_detection.py" output="screen"/>
+	<include file="$(find xycar_lidar)/launch/lidar_noviewer.launch" />
 
 	<include file="$(find xycar_motor)/launch/xycar_motor.launch"/>
 

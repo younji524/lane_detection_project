@@ -43,6 +43,8 @@ public:
    */
   xycar_msgs::xycar_motor control(PREC angle);
 
+  xycar_msgs::xycar_motor stop(void);
+
 private:
   // TODO: Node로 구현해보기
   // ros::NodeHandle node_handler_;

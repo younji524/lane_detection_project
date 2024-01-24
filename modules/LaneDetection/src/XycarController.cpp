@@ -66,4 +66,9 @@ xycar_msgs::xycar_motor XycarController::make_motor_message(PREC angle, PREC spe
 
   return motor_message;
 }
+
+xycar_msgs::xycar_motor XycarController::stop(void)
+{
+  return make_motor_message(0, 0);
+}
 } // namespace XyCar

@@ -13,12 +13,14 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   xycar_msgs
+  yolov3_trt_ros
 )
 
 find_package(yaml-cpp REQUIRED)
 
-# find_package(OpenCV 4.5.5 REQUIRED HINTS ~/OpenCV4/install/lib/cmake/opencv4)
-find_package(OpenCV 4.5.5 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/OpenCV/install/lib/cmake/opencv4)
+find_package(OpenCV 4.5.5 REQUIRED HINTS ~/OpenCV4/install/lib/cmake/opencv4)
+# find_package(OpenCV 4.5.5 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/OpenCV/install/lib/cmake/opencv4)
+
 
 catkin_package()
 

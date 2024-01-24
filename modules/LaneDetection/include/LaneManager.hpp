@@ -12,8 +12,12 @@
 // System header
 #include <iostream>
 #include <string>
+#include <vector>
 // Third party header
 #include "sensor_msgs/Image.h"
+#include "sensor_msgs/LaserScan.h"
+#include "yolov3_trt_ros/BoundingBoxes.h"
+#include "yolov3_trt_ros/BoundingBox.h"
 // User defined header
 #include "Common.hpp"
 #include "draw.hpp"
@@ -48,11 +52,14 @@ private:
   ros::NodeHandle node_handler_; ///< A Node handler for detector and controller.
   ros::Subscriber subscriber_; ///< A subscriber for reading images.
   ros::Publisher publisher_; ///< A publisher for motor control.
+  ros::Subscriber lidar_subscriber_; //< A subscriber for lidar data.
+  ros::Subscriber object_detect_subscriber_; //< A subscriber for object data.
 
   ImageProcessor::Ptr image_processor_; ///< Image processor class for image processing.
   LaneDetector::Ptr detector_; ///< Lane detector class for detecting lane.
   PIDController::Ptr pid_controller_; ///< PID class for control.
   XycarController::Ptr xycar_controller; ///< Xycar controller class for motor control.
+  std::vector<yolov3_trt_ros::BoundingBox> bbox_vector;
 
   // TODO: 큐 사용해보기
   // std::queue <cv::Mat> current_images_;
@@ -62,6 +69,15 @@ private:
   uint32_t frame_height_; ///< The frame height for draw.
   uint32_t offset_;       ///< The offset for draw.
   std::string video_name_;  ///< The output video name.
+  int lidar_angle;
+  int lidar_speed;
+  int lidar_threshold;
+  int lidar_range;
+  int detect_x_min;
+  int detect_y_min;
+  int detect_x_max;
+  int detect_y_max;
+  int wait;
 
   /**
    * @brief Set configuration.
@@ -78,6 +94,15 @@ private:
    * @return void
    */
   void image_callback(const sensor_msgs::Image &message);
+  void lidar_callback(const sensor_msgs::LaserScan &message);
+  void object_detection_callback(const yolov3_trt_ros::BoundingBoxes &message);
+  void lidar_drive(int direction); // lidar 객체 인식 후 지정된 방향으로 이동 후 복귀
+  void lidar_stop(); // lidar 객체 인식 후 정지
+  void object_detection_stop(); // stop, crosswalk 인식 -> 잠시 정지 후 이동
+  void object_detection_drive(int direction); // left, right 인식
+  void object_detection_green_light(); // 초록 신호 인식
+  void object_detection_red_light(); // 빨간 신호 인식
+  void control_few_second(double time, int angle, int speed);
 };
 } // namespace XyCar
 
