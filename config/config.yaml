@@ -54,3 +54,4 @@ OBJECT:
   BOX_THRESHOLD: 2500
 
 DEBUG: false
+SHOW: false
