@@ -308,7 +308,6 @@ void LaneManager::run()
         else if(bbox_vector[0].id == 4) // traffic_light_red(4)
         {
           publisher_.publish(xycar_controller->stop());
-          // control_few_second(0.5, 0, 0);
         }
         else if(bbox_vector[0].id == 6) // traffic_light_green(6)
           {
