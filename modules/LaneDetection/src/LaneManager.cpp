@@ -283,7 +283,10 @@ void LaneManager::run()
       // }
     if(bbox_vector.empty())
     {
-      publisher_.publish(xycar_controller->control(angle));
+      if (lane_state.stop_flag_)
+        publisher_.publish(xycar_controller->stop());
+      else
+       publisher_.publish(xycar_controller->control(angle));
     }
     else
     {
@@ -318,13 +321,13 @@ void LaneManager::run()
       }
       else
       {
-        publisher_.publish(xycar_controller->control(angle));
         if(bbox_vector[0].id == 0 && box_size >= box_threshold && distance <= 160)
         {
-          control_few_second(wait + 2.15, -50, 4);
+          control_few_second(wait + 2.25, -50, 4);
         }
         else if(bbox_vector[0].id == 1 && box_size >= box_threshold && distance <= 160)
-          control_few_second(wait + 4.65, 50, 4);
+          control_few_second(wait + 4.6, 50, 5);
+        publisher_.publish(xycar_controller->control(angle));
       }
     }
 
