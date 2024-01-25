@@ -118,6 +118,7 @@ private:
    * @return void
    */
   void evaluate(const std::vector<cv::Vec4i> &lines, const cv::Mat &draw_image);
+  void check_lane(const std::vector<cv::Vec4i> &left_lines, const std::vector<cv::Vec4i> &right_lines);
 };
 } // namespace XyCar
 

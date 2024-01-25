@@ -206,11 +206,27 @@ void LaneDetector::refine_pos()
     }
   }
 }
-
+void LaneDetector::check_lane(const std::vector<cv::Vec4i> &left_lines, const std::vector<cv::Vec4i> &right_lines)
+{
+  if(left_lines.size() == 0 && right_lines.size() != 0){
+    state_.left_detector_ = false;
+    state_.right_detector_ = true;
+  }
+  else if(left_lines.size() != 0 && right_lines.size() == 0){
+    state_.left_detector_ = true;
+    state_.right_detector_ = false;
+  }
+  else{
+    state_.left_detector_ = true;
+    state_.right_detector_ = true;
+  }
+}
 void LaneDetector::evaluate(const std::vector<cv::Vec4i> &lines, const cv::Mat &draw_image)
 {
   std::vector<cv::Vec4i> left_lines, right_lines, stop_lines;
   divide_left_right_line(lines, left_lines, right_lines, stop_lines);
+
+  check_lane(left_lines, right_lines);
 
   for (cv::Vec4i line : left_lines)
   {
@@ -262,7 +278,7 @@ State LaneDetector::find_state(const cv::Mat &canny_crop, cv::Mat &draw_image, b
 
   cv::HoughLinesP(canny_crop, lines, rho, theta, hough_threshold_, hough_min_line_length_, min_line_gap);
 
-// #if DEBUG
+#if DEBUG
   cv::Mat hough_image = canny_crop.clone();
   cv::cvtColor(hough_image ,hough_image, cv::COLOR_GRAY2BGR);
   for(cv::Vec4i line : lines)
@@ -270,7 +286,7 @@ State LaneDetector::find_state(const cv::Mat &canny_crop, cv::Mat &draw_image, b
     cv::line(hough_image, cv::Point(line[0], line[1]), cv::Point(line[2], line[3]), cv::Scalar(255,0,255), 2, cv::LINE_8);
   }
   cv::imshow("hough_image", hough_image);
-// #endif
+#endif
 
   evaluate(lines, draw_image);
 

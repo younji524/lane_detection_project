@@ -13,6 +13,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <numeric>
+#include <cmath>
 // Third party header
 #include "sensor_msgs/Image.h"
 #include "sensor_msgs/LaserScan.h"
@@ -78,6 +80,12 @@ private:
   int detect_x_max;
   int detect_y_max;
   int wait;
+  std::vector<int> y_mean;
+  int box_size;
+  int box_threshold;
+  int distance;
+  bool lidar_flag;
+  std::vector<PREC> angle_vector;
 
   /**
    * @brief Set configuration.

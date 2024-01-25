@@ -33,6 +33,8 @@ struct State
   PREC left_pos_;        ///< The position of left lane.
   PREC right_pos_;       ///< The position of right lane.
   bool stop_flag_;       ///< The flag for stop line recognition. 'true' is stop.
+  bool left_detector_;
+  bool right_detector_;
 };
 } // namespace XyCar
 

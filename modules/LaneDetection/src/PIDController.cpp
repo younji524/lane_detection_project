@@ -23,6 +23,8 @@ PREC PIDController::compute_angle(int32_t error)
   PREC angle = proportional_gain_ * proportional_error_ + integral_gain_ * integral_error_ + differential_gain_ * differential_error_;
 
   if ( std::abs(angle) < 13) integral_error_ = 0.0;
+  if (std::abs(integral_error_) > 100 ) integral_error_ = 0.0;
+
   return angle;
 }
 } // namespace XyCar
